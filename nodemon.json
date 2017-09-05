@@ -1,0 +1,8 @@
+{
+  "verbose": false,
+  "ignore": [
+    ".git",
+    ".gitignore",
+    "common/model.js"
+  ]
+}
