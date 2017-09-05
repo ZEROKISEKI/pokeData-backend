@@ -10,7 +10,7 @@ import errorHandler from './middlewares/errorHandler'
 import pokemon from './routers/pokemon'
 import item from './routers/item'
 import skill from './routers/skill'
-import admin from './routers/admin'
+import user from './routers/user'
 
 const app = new Koa()
 
@@ -20,8 +20,8 @@ app.use(mount('/static', server(`${__dirname}/public`)))
 
 app.use(logger())
 
-app.use(admin.routes())
-app.use(admin.allowedMethods())
+app.use(user.routes())
+app.use(user.allowedMethods())
 app.use(item.routes())
 app.use(item.allowedMethods())
 app.use(skill.routes())

@@ -1,0 +1,32 @@
+package PokeData;
+
+enum PBUserRole {
+  NORMAL_USER = 1;                        // 普通用户
+  NORMAL_ADMIN = 2;                       // 普通管理员
+  SUPER_ADMIN = 3;                        // 超级管理员
+}
+
+message PBUser {
+  optional int32 userId = 1;              // 账号标识id
+  optional string username = 2;           // 账号名
+  optional string avatar = 3;             // 账号头像
+  optional string password = 4;           // 账号密码
+  optional PBUserRole role = 5;           // 账号角色
+  optional bool isLocked = 6;             // 账号是否被锁定
+  optional string inviteCode = 7;         // 账号使用邀请码
+  optional uint64 createTime = 8;         // 账号创建时间
+  optional uint64 lastLoginTime = 9;      // 账号上一次登录时间
+  optional uint64 lastModifyTime = 10;    // 账号上一次修改时间(账号信息, 账号锁定状态修改)
+}
+
+message PBUserList {
+  repeated PBUser users = 1;              // 账号列表数据
+  optional int32 offset = 2;              // 用于分页使用的offset
+  optional int32 limit = 3;               // 用于分页使用的limit
+}
+
+message PBUserReq {
+  optional string username = 1;           // 账号用户名
+  optional string password = 2;           // 账号密码
+  optional string inviteCode = 3;         // 账号邀请码
+}

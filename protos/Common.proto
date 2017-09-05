@@ -1,0 +1,7 @@
+// 公共模块
+package PokeData;
+
+message PBIdObject {
+  optional int32 id = 1;            // 数字id
+  optional string idStr = 2;        // 某些id可能是字符串
+}

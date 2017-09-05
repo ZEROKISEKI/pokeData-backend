@@ -1,13 +1,15 @@
-enum MessageType {
+package PokeData;
+
+enum PBMessageType {
 
   // ------------------  POKEMONS ----------------------
 
-  GET_POKEMONS = 100001;               // 获取神奇宝贝()
-  GET_POKEMON_BY_ID = 100002;          // 根据ID获取神奇宝贝
-  SEARCH_POKEMONS = 100003;            // 搜索神奇宝贝
-  ADD_POKEMONS = 100004;               // 添加神奇宝贝
-  UPDATE_POKEMONS = 100005;            // 修改神奇宝贝
-  REMOVE_POKEMONS = 100006;            // 删除神奇宝贝
+  GET_POKEMONS = 100001;                // 获取神奇宝贝
+  GET_POKEMON_BY_ID = 100002;           // 根据ID获取神奇宝贝
+  SEARCH_POKEMONS = 100003;             // 搜索神奇宝贝
+  ADD_POKEMONS = 100004;                // 添加神奇宝贝
+  UPDATE_POKEMONS = 100005;             // 修改神奇宝贝
+  REMOVE_POKEMONS = 100006;             // 删除神奇宝贝
 
 
   // ------------------  ITEMS -------------------------
@@ -16,10 +18,30 @@ enum MessageType {
 
   // ------------------  SKILLS ------------------------
 
+
+
   // ------------------  PERSONS -----------------------
+
+
 
   // ------------------  USERS -------------------------
 
+  USER_LOGIN = 500001;                    // 账号登录 PBUserReq -> PBUser
+  USER_REGISTER = 500002;                 // 账号注册 PBUserReq -> PBUser
+  GET_ALL_USERS = 500003;                 // 超级管理员获取全部用户账号 void -> PBUserList
+  GET_USER_BY_ID = 500004;                // 根据ID获取某个用户信息 PBIdObject -> PBUser
+  UPDATE_USER_BY_ID = 500005;             // 修改某个用户(信息, 解锁，锁定) PBUser -> PBUser
+  ADD_USER = 500006;                      // 超级管理员手动添加账号 PBUser -> PBUser
+  REMOVE_USER = 500007;                   // 超级管理员删除某个账号 PBIdObject -> void
+}
 
+message PBMessageReq {
+  required PBMessageType messageType = 1; // 请求消息类型
+  repeated bytes requestBody = 2;         // 请求的包装数据
+  optional uint64 requestTime = 3;        // 请求发起的时间
+}
 
+message PBMessageRes {
+  repeated bytes messageData = 1;         // 响应数据
+  optional uint64 responseTime = 2;       // 响应时间
 }
