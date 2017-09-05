@@ -27,7 +27,7 @@ enum PBMessageType {
   // ------------------  USERS -------------------------
 
   USER_LOGIN = 500001;                    // 账号登录 PBUserReq -> PBUser
-  USER_REGISTER = 500002;                 // 账号注册 PBUserReq -> PBUser
+  USER_REGISTER = 500002;                 // 账号注册 PBUserReq -> void
   GET_ALL_USERS = 500003;                 // 超级管理员获取全部用户账号 void -> PBUserList
   GET_USER_BY_ID = 500004;                // 根据ID获取某个用户信息 PBIdObject -> PBUser
   UPDATE_USER_BY_ID = 500005;             // 修改某个用户(信息, 解锁，锁定) PBUser -> PBUser
@@ -42,6 +42,8 @@ message PBMessageReq {
 }
 
 message PBMessageRes {
-  repeated bytes messageData = 1;         // 响应数据
-  optional uint64 responseTime = 2;       // 响应时间
+  optional int32 resStatus = 1;           // 响应状态码
+  optional string resText = 2;            // 响应状态说明
+  repeated bytes messageData = 3;         // 响应数据
+  optional uint64 responseTime = 4;       // 响应时间
 }

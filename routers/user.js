@@ -1,9 +1,15 @@
 import Router from 'koa-router'
 import User from '../controllers/user'
+import jwt from '../middlewares/jwt'
 
 const router = new Router({
   'prefix': '/user'
 })
+
+// 配置不需要进行jwt验证的路由
+router.use(jwt({
+  path: ['/register', '/login']
+}))
 
 router.get('/setting', User.getMessage)
 router.post('/setting', User.updateMessage)

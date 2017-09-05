@@ -7,7 +7,10 @@ export const mongodb = {
 // 按照命令行的顺序来
 export const proto = {
   'files': [
-    './protos/message.proto'
+    './protos/BasicMessage.proto',
+    './protos/Common.proto',
+    './protos/Config.proto',
+    './protos/User.proto'
   ],
   '-t': 'static-module',
   '-w': 'commonjs',
@@ -24,4 +27,8 @@ export const proto = {
 	result = [...result, ...this['files']]
     yield result
   }
+}
+
+export const jwt = {
+  secret: 'DL3F7OXg0Wy2gha+5O+XEQ=='
 }
