@@ -1,13 +1,25 @@
-export default async function (ctx) {
+export default async function (ctx, next) {
   // 抛出错误
-  if (!ctx.errors) {
-	ctx.throw(500, ctx.message)
-  } else {
-    // 抛出数据库检测错误
-	let result = ''
-	for (const error of ctx.errors) {
-	  result += `${error.message}\n`
+  try {
+    await next()
+  } catch (err) {
+    if (err.status = 401) {
+      return ctx.throw(401, '请先进行登录!')
 	}
-	ctx.throw(500, result)
+
+	if (err instanceof protobuf.util.ProtocolError) {
+      ctx.throw(403, err.message)
+	}
+
+	if (!err.errors) {
+	  ctx.throw(500, err.message)
+	} else {
+	  // 抛出数据库检测错误
+	  let result = ''
+	  for (const error of err.errors) {
+		result += `${error.message}\n`
+	  }
+	  ctx.throw(500, result)
+	}
   }
 }

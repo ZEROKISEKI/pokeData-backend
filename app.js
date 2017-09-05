@@ -20,6 +20,9 @@ app.use(mount('/static', server(`${__dirname}/public`)))
 
 app.use(logger())
 
+// 错误中间件处理
+app.use(errorHandler)
+
 app.use(user.routes())
 app.use(user.allowedMethods())
 app.use(item.routes())
@@ -29,7 +32,5 @@ app.use(skill.allowedMethods())
 app.use(pokemon.routes())
 app.use(pokemon.allowedMethods())
 
-// 错误中间件处理
-app.use(errorHandler)
 
 export default app
