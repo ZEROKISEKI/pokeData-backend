@@ -1,7 +1,7 @@
 export const mongodb = {
   host: 'localhost',
   port: 27017,
-  database: 'test'
+  database: 'pokeData-test'
 }
 
 // 按照命令行的顺序来
