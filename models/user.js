@@ -8,7 +8,8 @@ const UserSchema = new Schema({
   name: {						// 账户名
     type: String,
 	required: true,
-	unique: true
+	unique: true,
+	alias: 'username'
   },
   avatar: {						// 账户头像, 为null使用默认头像
     type: String,
@@ -25,7 +26,8 @@ const UserSchema = new Schema({
   },
   locked: {						// 账号锁定状态
     type: Boolean,
-	default: false
+	default: false,
+	alias: 'isLocked'
   },
   inviteCode: {					// 账户邀请码(拥有邀请码可为管理员)
     type: String,
