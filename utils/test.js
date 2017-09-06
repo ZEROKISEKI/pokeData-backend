@@ -6,7 +6,7 @@ import { mongodb } from "../config"
 class Test {
 
   static async connectDB() {
-	return mongoose.createConnection(`mongodb://${mongodb.host}:${mongodb.port}/${mongodb.database}`)
+	return mongoose.connect(`mongodb://${mongodb.host}:${mongodb.port}/${mongodb.database}`)
   }
 
   static async closeDB() {
