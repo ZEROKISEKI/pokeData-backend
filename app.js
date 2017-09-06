@@ -1,7 +1,8 @@
 import Koa from 'koa'
 import logger from 'koa-logger'
-import bodyparser from 'koa-bodyparser'
+import bodyParser from 'koa-better-body'
 import server from 'koa-static'
+import convert from 'koa-convert'
 import mount from 'koa-mount'
 
 import db from './common/mongodb'
@@ -14,7 +15,13 @@ import user from './routers/user'
 
 const app = new Koa()
 
-app.use(bodyparser())
+app.use(convert(bodyParser({
+  buffer: true,
+  // fields: 'body',
+  extendTypes: {
+    buffer: ['application/octet-stream']
+  }
+})))
 
 app.use(mount('/static', server(`${__dirname}/public`)))
 
