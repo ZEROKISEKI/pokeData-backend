@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon ./bin/transform",
-    "test": "mocha ./tests --recursive --timeout 20000 --delay --compilers js:babel-core/register"
+    "test": "mocha ./tests --recursive --timeout 20000 --compilers js:babel-core/register"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
