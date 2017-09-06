@@ -2,6 +2,11 @@
 package PokeData;
 
 message PBIdObject {
-  optional int32 id = 1;            // 数字id
-  optional string idStr = 2;        // 某些id可能是字符串
+  optional int32 id = 1;                  // 数字id
+  optional string idStr = 2;              // 某些id可能是字符串
+}
+
+message PBListReq {
+  optional int32 offset = 1;              // 用于分页使用的offset
+  optional int32 limit = 2;               // 用于分页使用的limit
 }
