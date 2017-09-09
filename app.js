@@ -8,6 +8,9 @@ import mount from 'koa-mount'
 import db from './common/mongodb'
 
 import errorHandler from './middlewares/errorHandler'
+import pbHandler from './middlewares/pbHandler'
+import checkReq from './middlewares/checkReq'
+
 import pokemon from './routers/pokemon'
 import item from './routers/item'
 import skill from './routers/skill'
@@ -27,8 +30,10 @@ app.use(mount('/static', server(`${__dirname}/public`)))
 
 app.use(logger())
 
-// 错误中间件处理
+// 错误处理中间件
 app.use(errorHandler)
+// PB请求处理中间件
+app.use(pbHandler)
 
 app.use(user.routes())
 app.use(user.allowedMethods())
@@ -38,6 +43,9 @@ app.use(skill.routes())
 app.use(skill.allowedMethods())
 app.use(pokemon.routes())
 app.use(pokemon.allowedMethods())
+
+// 检查请求类型中间件
+app.use(checkReq)
 
 
 export default app
