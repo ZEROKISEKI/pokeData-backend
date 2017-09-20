@@ -9,7 +9,6 @@ export const proto = {
   'files': [
     './protos/BasicMessage.proto',
     './protos/Common.proto',
-    './protos/Config.proto',
     './protos/User.proto',
     './protos/Item.proto'
   ],
