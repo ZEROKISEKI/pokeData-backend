@@ -9,8 +9,8 @@ describe('User', () => {
   it('测试账号注册', (done) => {
 
     const body = {
-	  username: 'sora1',
-	  password: '123456',
+	  username: 'mocha',
+	  password: '4261530520',
 	  // inviteCode: '123456'
 	}
 
@@ -132,7 +132,7 @@ describe('User', () => {
 		const response = PokeData.PBMessageRes.decode(res.body)
 		const messageData = PokeData.PBUser.decode(response.messageData)
 
-		// console.log(messageData)
+		console.log(messageData)
 
 		done()
 	  })
@@ -144,7 +144,8 @@ describe('User', () => {
 
 	const body = {
 	  userId: 16,
-	  isLocked: true,
+	  isLocked: false,
+	  role: PokeData.PBUserRole.SUPER_ADMIN
 	}
 
 	const requestBody = PokeData.PBUser.encode(new PokeData.PBUser(body)).finish()
@@ -240,7 +241,8 @@ describe('User', () => {
   })
 
   it('测试获取个人信息', (done) => {
-	const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE1LCJ1c2VybmFtZSI6InNvcmExIiwiYXZhdGFyIjpudWxsLCJsYXN0TG9naW5UaW1lIjoiMjAxNy0wOS0wNlQwNzozODo0My45MTVaIiwicm9sZSI6MSwiaWF0IjoxNTA0NjgzNTIzfQ.tFv816xJSAOM8lYG7YmnXdYfp_5LwesnLWSYyOmdmv4`
+
+    const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJ1c2VybmFtZSI6ImFvbm9zb3JhIiwiYXZhdGFyIjpudWxsLCJsYXN0TG9naW5UaW1lIjoiMjAxNy0wOS0wOVQxNDo1NToxNC45MjFaIiwicm9sZSI6MSwiaWF0IjoxNTA0OTY4OTE0fQ.friljVLqpBfSMSdXOYbBX-Pc-8bVs5FaCDrMPQSUlL4`
 
 	const req = PokeData.PBMessageReq.encode(new PokeData.PBMessageReq({
 	  messageType: PokeData.PBMessageType.GET_USER_BY_ID,
@@ -264,7 +266,7 @@ describe('User', () => {
 		const response = PokeData.PBMessageRes.decode(res.body)
 		const messageData = PokeData.PBUser.decode(response.messageData)
 
-		// console.log(messageData)
+		console.log(messageData)
 
 		done()
 	  })
