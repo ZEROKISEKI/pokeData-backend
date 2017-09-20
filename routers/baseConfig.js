@@ -16,14 +16,14 @@ router.get('/property', BaseConfig.getProperties)
 
 router.post('/egg/add', BaseConfig.addEggGroup)
 router.post('/egg/remove', BaseConfig.removeEggGroup)
-router.post('/egg/update', BaseConfig.updateEggGroup)
+router.post('/egg/update/:id([0-9]+)', BaseConfig.updateEggGroup)
 
 router.post('/version/add', BaseConfig.addVersion)
 router.post('/version/remove', BaseConfig.removeVersion)
-router.post('/version/update', BaseConfig.updateVersion)
+router.post('/version/update/:id([0-9]+)', BaseConfig.updateVersion)
 
 router.post('/property/add', BaseConfig.addProperty)
 router.post('/property/remove', BaseConfig.removeProperty)
-router.post('/property/update', BaseConfig.updateProperty)
+router.post('/property/update/:id([0-9]+)', BaseConfig.updateProperty)
 
 export default router
