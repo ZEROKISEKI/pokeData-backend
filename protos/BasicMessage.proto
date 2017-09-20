@@ -2,6 +2,7 @@ package PokeData;
 
 enum PBMessageType {
 
+
   // ------------------  POKEMONS ----------------------
 
   GET_POKEMONS = 100001;                  // 获取神奇宝贝
@@ -14,14 +15,32 @@ enum PBMessageType {
 
   // ------------------  ITEMS -------------------------
 
+  GET_ITEMS = 200001;                     // 获取道具 PBListReq -> PBItemList
+  GET_ITEM_BY_ID = 200002;                // 根据ID获取道具 PBIdObject -> PBItem
+  SEARCH_ITEMS = 200003;                  // 搜索道具 PBItemSearch -> PBItemList
+  ADD_ITEM = 200004;                      // 添加道具 PBItem -> void
+  UPDATE_ITEM = 200005;                   // 修改道具 PBItem -> PBItem
+  REMOVE_ITEM = 200006;                   // 删除道具 PBIdObject -> void
 
 
   // ------------------  SKILLS ------------------------
 
+  GET_SKILLS = 300001;                    // 获取技能
+  GET_SKILL_BY_ID = 300002;               // 根据ID获取到技能
+  SEARCH_SKILLS = 300003;                 // 搜索技能
+  ADD_SKILL = 300004;                     // 添加技能
+  UPDATE_SKILL = 300005;                  // 修改技能信息
+  REMOVE_SKILL = 300006;                  // 删除技能
 
 
   // ------------------  PERSONS -----------------------
 
+  GET_PERSONS = 400001;                   // 获取人物
+  GET_PERSON_BY_ID = 400002;              // 根据ID获取到人物
+  SEARCH_PERSONS = 400003;                // 搜索人物
+  ADD_PERSON = 400004;                    // 添加人物
+  REMOVE_PERSON = 400005;                 // 删除人物
+  UPDATE_PERSONS = 400006;                // 修改人物信息
 
 
   // ------------------  USERS -------------------------
@@ -33,6 +52,21 @@ enum PBMessageType {
   UPDATE_USER_BY_ID = 500005;             // 修改某个用户(用户信息, 解锁，锁定) PBUser -> PBUser
   ADD_USER = 500006;                      // 超级管理员手动添加账号 PBUser -> void
   REMOVE_USER = 500007;                   // 超级管理员删除某个账号 PBIdObject -> void
+
+  // ------------------  BASECONFIG --------------------
+
+  GET_VERSIONS = 600001;                  // 获取全部游戏版本 void -> PBVersionList
+  ADD_VERSION = 600002;                   // 添加游戏版本 PBVersion -> void
+  UPDATE_VERSION = 600003;                // 修改游戏版本 PBVersion -> PBVersion
+  REMOVE_VERSION = 600004;                // 删除游戏版本 PBIdObject -> void
+  GET_EGGGROUPS = 600005;                 // 获取全部蛋群 void -> PBEggGroupList
+  ADD_EGGGROUP = 600006;                  // 添加蛋群 PBEggGroup -> void
+  UPDATE_EGGGROUP = 600007;               // 修改蛋群 PBEggGroup -> PBEggGroup
+  REMOVE_EGGGROUP = 600008;               // 删除蛋群 PBIdObject -> void
+  GET_PROPERTIES = 600009;                // 获取全部属性 void -> PBPropertyList
+  ADD_PROPERTY = 600010;                  // 添加属性 PBProperty -> void
+  UPDATE_PROPERTY = 600011;               // 修改属性 PBProperty -> PBProperty
+  REMOVE_PROPERTY = 600012;               // 删除属性 PBIdObject -> void
 }
 
 message PBMessageReq {

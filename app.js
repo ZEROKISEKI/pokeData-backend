@@ -15,6 +15,8 @@ import pokemon from './routers/pokemon'
 import item from './routers/item'
 import skill from './routers/skill'
 import user from './routers/user'
+import baseConfig from './routers/baseConfig'
+
 
 const app = new Koa()
 
@@ -35,6 +37,8 @@ app.use(errorHandler)
 // PB请求处理中间件
 app.use(pbHandler)
 
+app.use(baseConfig.routes())
+app.use(baseConfig.allowedMethods())
 app.use(user.routes())
 app.use(user.allowedMethods())
 app.use(item.routes())

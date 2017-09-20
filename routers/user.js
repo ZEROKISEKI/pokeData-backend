@@ -8,7 +8,7 @@ const router = new Router({
 
 // 配置不需要进行jwt验证的路由
 router.use(jwt({
-  path: ['/register', '/login']
+  path: ['/user/register', '/user/login']
 }))
 
 router.get('/setting', User.getMessage)
@@ -24,8 +24,7 @@ router.post('/add', User.addUser)
 
 router.post('/remove', User.removeUser)
 
-router.get('/:id', User.getUsersById)
-router.post('/:id', User.updateUsersById)
-
+router.get('/:id([0-9]+)', User.getUsersById)
+router.post('/:id([0-9]+)', User.updateUsersById)
 
 export default router
