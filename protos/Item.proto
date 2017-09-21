@@ -1,0 +1,55 @@
+import "Common.proto";
+
+package PokeData;
+
+enum PBItemUsage {
+  ONCE = 1;                                     // 一次性使用
+  UNAVAILABLE = 2;                              // 不可使用
+  REPEATED = 3;                                 // 多次使用
+}
+
+message PBItemObtain {
+
+  repeated PBObtainContent one = 1;             // 一次性获得
+  repeated PBObtainContent repeat = 2;          // 重复性获得
+
+  message PBObtainContent {
+    repeated PBVersion version = 1;             // 游戏版本
+    optional string way = 2;                    // 获得方式说明
+  }
+}
+
+message PBItem {
+  optional int32 itemId = 1;                    // 道具标识ID
+  optional string name = 2;                     // 道具名称
+  repeated string aliasName = 3;                // 道具别名
+  optional string image = 4;                    // 道具图片
+  optional string icon = 5;                     // 道具图标
+  optional string description = 6;              // 道具说明
+  repeated string result = 7;                   // 道具效果
+  optional PBItemUsage usage = 8;               // 道具使用
+  optional bool scene = 9;                      // 道具场景
+  repeated string appearance = 17;              // 道具第一次出现的游戏版本
+  optional int32 pay = 10;                      // 道具购入价格
+  optional int32 sale = 11;                     // 道具售出价格
+  optional int32 throw = 12;                    // 道具投掷次数
+  optional bool visible = 13;                   // 道具是否可见
+  optional PBItemObtain obtain = 14;            // 道具获得方式 -> PBItemObtain
+  optional uint64 createTime = 15;              // 创建时间(用于后台返回)
+  optional uint64 modifyTime = 16;              // 道具修改时间(用于后台返回)
+}
+
+message PBItemList {
+  repeated PBItem items = 1;
+  optional int32 offset = 2;                    // 用于分页使用的offset
+  optional int32 limit = 3;                     // 用于分页使用的limit
+}
+
+message PBItemSearch {
+  optional string key = 1;                      // 搜索关键字(道具名称)
+  optional PBItemUsage usage = 2;               // PBItemUsage
+  optional bool scene = 3;                      // 使用场景
+  optional bool visible = 4[default = true];    // 是否可见
+  optional PBTime modifyTime = 5;               // 修改时间
+  optional PBTime createTime = 6;               // 创建时间
+}
