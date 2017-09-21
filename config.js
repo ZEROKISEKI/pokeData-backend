@@ -10,7 +10,8 @@ export const proto = {
     './protos/BasicMessage.proto',
     './protos/Common.proto',
     './protos/User.proto',
-    './protos/Item.proto'
+    './protos/Item.proto',
+    './protos/Person.proto'
   ],
   '-t': 'static-module',
   '-w': 'commonjs',

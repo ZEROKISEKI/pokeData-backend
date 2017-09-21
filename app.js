@@ -16,7 +16,7 @@ import item from './routers/item'
 import skill from './routers/skill'
 import user from './routers/user'
 import baseConfig from './routers/baseConfig'
-
+import person from './routers/person'
 
 const app = new Koa()
 
@@ -45,6 +45,8 @@ app.use(item.routes())
 app.use(item.allowedMethods())
 app.use(skill.routes())
 app.use(skill.allowedMethods())
+app.use(person.routes())
+app.use(person.allowedMethods())
 app.use(pokemon.routes())
 app.use(pokemon.allowedMethods())
 

@@ -1,0 +1,82 @@
+import "Common.proto";
+
+package PokeData;
+
+message PBPerson {
+  optional int32 personId = 1;                  // 人物唯一标识id
+  optional string name = 2;                     // 人物名称
+  repeated string aliasName = 3;                // 人物别名
+  optional string avatar = 4;                   // 人物立绘
+  optional int32 high = 5;                      // 人物身高
+  optional int32 weight = 6;                    // 人物体重
+  optional PBSex sex = 7;                       // 人物性别
+  optional string birthday = 8;                 // 人物生日
+  repeated PBAge age = 9;                       // 人物年龄
+  repeated PBColumn others = 10;                // 人物栏目属性
+  repeated PBPersonPokemon pokemons = 11;       // 人物持有宝可梦信息(不同时期地点，多个信息集合)
+  optional bool visible = 12;                   // 人物是否可见
+  optional uint64 createTime = 13;              // 数据创建时间
+  optional uint64 modifyTime = 14;              // 数据上一次修改时间
+}
+
+message PBPersonList {
+  repeated PBPerson persons = 1;
+  optional int32 offset = 2;
+  optional int32 limit = 3;
+}
+
+message PBAge {
+  optional int32 value = 1;                     // 年龄
+  optional string duration = 2;                 // 年龄对应时期
+}
+
+message PBPersonPokemon {
+  optional PBPerson person = 1;
+  optional string place = 2;                    // 当前地点
+  repeated PBVersion version = 3;               // 当前游戏版本
+  repeated PBPokemon pokemons = 4;              // 拥有宝可梦
+  optional PBMoney money = 5;                   // 获得金钱
+  repeated PBItem items = 6;                    // 战斗使用道具
+  optional string description = 7;              // 其他说明
+
+  message PBMoney {
+    optional string way = 1;                    // 获得金钱方式
+    optional uint32 value = 2;                  // 获得金钱数目
+  }
+
+  message PBPerson {
+    optional string identity = 1;               // 训练师身份
+    optional string name = 2;                   // 名称
+    optional string image = 3;                  // 图标
+  }
+
+  message PBItem {
+    optional string name = 1;                   // 道具名称
+    optional string icon = 2;                   // 道具图标
+  }
+
+  message PBSkill {
+    optional string name = 1;                   // 招式名称
+    optional string property = 2;               // 招式属性
+  }
+
+  message PBPokemon {
+    optional string name = 1;                   // 宝可梦名称
+    optional string icon = 2;                   // 宝可梦图标
+    repeated string properties = 3;             // 宝可梦属性
+    repeated PBSex sex = 4;                     // 宝可梦性别
+    repeated string feature = 5;                // 宝可梦特性
+    optional PBItem item = 6;                   // 宝可梦携带道具
+    repeated PBSkill skills = 7;                // 宝可梦招式
+    optional uint32 level = 8;                  // 宝可梦等级
+  }
+}
+
+message PBPersonSearch {
+  optional string key = 1;                      // 关键字(名称, 别名)
+  optional PBSex sex = 2;                       // 人物性别
+  optional bool visible = 3;                    // 是否可见
+  optional PBTime createTime = 4;               // 创建时间
+  optional PBTime modifyTime = 5;               // 修改时间
+}
+
