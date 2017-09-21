@@ -38,9 +38,9 @@ enum PBMessageType {
   GET_PERSONS = 400001;                   // 获取人物
   GET_PERSON_BY_ID = 400002;              // 根据ID获取到人物
   SEARCH_PERSONS = 400003;                // 搜索人物
-  ADD_PERSON = 400004;                    // 添加人物
+  ADD_PERSON = 400004;                    // 添加人物 PBPerson -> void
   REMOVE_PERSON = 400005;                 // 删除人物
-  UPDATE_PERSONS = 400006;                // 修改人物信息
+  UPDATE_PERSON = 400006;                // 修改人物信息
 
 
   // ------------------  USERS -------------------------
