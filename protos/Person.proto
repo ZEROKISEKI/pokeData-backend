@@ -7,8 +7,8 @@ message PBPerson {
   optional string name = 2;                     // 人物名称
   repeated string aliasName = 3;                // 人物别名
   optional string avatar = 4;                   // 人物立绘
-  optional int32 high = 5;                      // 人物身高
-  optional int32 weight = 6;                    // 人物体重
+  optional double high = 5;                     // 人物身高
+  optional double weight = 6;                   // 人物体重
   optional PBSex sex = 7;                       // 人物性别
   optional string birthday = 8;                 // 人物生日
   repeated PBAge age = 9;                       // 人物年龄
