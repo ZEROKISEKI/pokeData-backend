@@ -25,12 +25,12 @@ enum PBMessageType {
 
   // ------------------  SKILLS ------------------------
 
-  GET_SKILLS = 300001;                    // 获取技能
-  GET_SKILL_BY_ID = 300002;               // 根据ID获取到技能
-  SEARCH_SKILLS = 300003;                 // 搜索技能
-  ADD_SKILL = 300004;                     // 添加技能
-  UPDATE_SKILL = 300005;                  // 修改技能信息
-  REMOVE_SKILL = 300006;                  // 删除技能
+  GET_SKILLS = 300001;                    // 获取技能 PBListReq -> PBSkillList
+  GET_SKILL_BY_ID = 300002;               // 根据ID获取到技能 PBIdObject -> PBSkill
+  SEARCH_SKILLS = 300003;                 // 搜索技能 PBSkillSearch -> PBSkillList
+  ADD_SKILL = 300004;                     // 添加技能 PBSkill -> void
+  UPDATE_SKILL = 300005;                  // 修改技能信息 PBSkill -> PBSkill
+  REMOVE_SKILL = 300006;                  // 删除技能 PBIdObject -> void
 
 
   // ------------------  PERSONS -----------------------

@@ -5,117 +5,138 @@ import uniqueValidator from 'mongoose-unique-validator'
 const Schema = mongoose.Schema
 
 const SkillSchema = new Schema({
-  scene: {                    // 场景(gif图)
+  number: {						// 招式编号
+	type: Number,
+	min: 1,
+	required: true,
+	unique: true
+  },
+  name: {					  	// 招式名称
+	type: String,
+	required: true,
+	unique: true,
+	index: true
+  },
+  aliasName: [String],		  	// 招式别名
+  scene: {                    	// 场景(gif图)
     type: String,
-    default: null             // 为null表示没有场景
+    default: null             	// 为null表示没有场景
   },
-  description: String,        // 招式说明
-  power: {					  // 威力
-	type: Number,
-	default: null             // 为null -> -
+  property: {				 	// 招式属性
+    type: String,
+	required: true
   },
-  hit: {					  // 命中率
+  kind: {						// 招式分类
+    type: Number,
+	enum: [1, 2, 3],		  	// 1: '物理'  2: '特殊'  3: '变化'
+	default: 1
+  },
+  description: String,        	// 招式描述
+  power: {					  	// 威力
 	type: Number,
-	default: null,            // 为null -> -
+	default: null             	// 为null -> -
+  },
+  hit: {					  	// 命中率
+	type: Number,
+	default: null,            	// 为null -> -
 	max: 100,
   },
-  pp: {						  // pp数(使用次数)
+  pp: {						  	// pp数(使用次数)
     base: Number,
-    max: {                    // 最大pp使用次数
+    max: {                    	// 最大pp使用次数
       type: Number,
       default: null
     }
   },
-  features: [String],         // 相关特性说明
-  effect: [String],           // 招式附加效果(不同于特性说明)
-  change: [String],           // 招式变更
-  range: String,              // 作用范围
-  zSkill: {                   // Z招式
-	crystal: String,          // Z纯晶
-    name: String,             // Z招式名称
-    power: Number             // Z招式威力
+  features: [String],         	// 相关特性说明
+  effect: [String],           	// 招式附加效果(不同于特性说明)
+  range: {						// 招式作用范围
+    type: Number,
+	enum: [1, 2, 3],			// 1: '自身之外一只宝可梦'  2: '自身之外其他宝可梦'  3: '自身'
+	default: 1
   },
-  pokemons: {                 // 能学会该招式的pokemon
-    level: [{                 // 等级提升
+  zSkill: {                   	// Z招式
+	type: {
+	  crystal: String,        	// Z纯晶
+	  name: String,           	// Z招式名称
+	  power: String           	// Z招式威力(可以是数字或者说明)
+	},
+	default: null
+  },
+  pokemons: {                 	// 能学会该招式的pokemon
+    level: [{                 	// 等级提升
+	  number: Number,			// 宝可梦编号
       name: String,
       icon: String,
       properties: [String],
       generations: [{
-        key: Number,          // 世代数
+        number: Number,         // 世代数
         value: [{
-		  version: [{           // 对应游戏版本
+		  version: [{         	// 对应游戏版本
 			name: String,
 			abstr: String
 		  }],
-          level: [{
-            type: Number,
-            default: null     // 为null表示 -
-          }]
+          level: {
+			type: Number,
+			default: null     	// 为null表示不能习得该技能 为0表示 -
+		  }
         }]
       }]
     }],
-    inherit: [{               // 生蛋遗传
+    inherit: [{               	// 生蛋遗传
+	  number: Number,
 	  name: String,
 	  icon: String,
 	  properties: [String],
       generations: [{
-	    key: Number,          // 世代
-        version: [{           // 对应游戏版本
-		  name: String,
-		  abstr: String
-		}],
-        parents: [{           // 亲代
+		number: Number,         // 世代
+        parents: [{         	// 亲代
 	      name: String,
           icon: String,
         }]
       }]
     }],
-    item: [{                  // 招式学习器
+    item: [{                  	// 招式学习器
+	  number: Number,
 	  name: String,
 	  icon: String,
 	  properties: [String],
       generations: [{
-	    key: Number,
-        version: [{
-		  name: String,
-		  abstr: String
-		}],
-        items: [Number]       // 技能机器编号
+		number: Number,
+        items: [Number]       	// 技能机器编号
       }]
     }],
-    learn: [{                 // 教授招式
+    learn: [{                 	// 教授招式
+	  number: Number,
 	  name: String,
 	  icon: String,
 	  properties: [String],
       generations: [{
-	    key: Number,
-        version: [{
-	      name: String,
-          abstr: String
-        }],
-        canLearn: {           // 是否可以学习
-	      type: Boolean,
-          default: false
-        }
-      }]
+	    number: Number
+	  }]
     }],
-    others: [{                // 特殊途径
-      generation: Number,     // 世代
+    others: [{                	// 特殊途径
+      generation: Number,     	// 世代
       data: [{
+        number: Number,
         name: String,
         icon: String,
         properties: [String],
-        way: String           // 获得方式
+        way: String           	// 获得方式
       }]
     }]
   },
-  createTime: {               // 文档创建时间
+  visible: {					// 是否可见
+    type: Boolean,
+	default: true
+  },
+  createTime: {               	// 文档创建时间
 	type: Date,
 	default: Date.now
   },
-  modifyTime: {               // 文档修改时间
+  modifyTime: {               	// 文档修改时间
 	type: Date,
-	default: Date.now
+	default: null
   }
 })
 

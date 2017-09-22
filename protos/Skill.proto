@@ -1,0 +1,140 @@
+import "Common.proto";
+
+package PokeData;
+
+enum PBSkillKind {                        // 技能分类
+  PHYSICAL = 1;                           // 物理
+  SPECIAL = 2;                            // 特殊
+  CHANGED = 3;                            // 变化
+}
+
+enum PBSkillRange {                       // 技能使用范围
+  TO_ONE = 1;                             // 除自身以外场上一只可以攻击到的宝可梦
+  TO_ALL = 2;                             // 除自身以外场上全部可以攻击到的宝可梦
+  TO_OWN = 3;                             // 自身
+}
+
+message PBSkill {
+  optional int32 number = 19;             // 技能编号
+  optional int32 skillId = 1;             // 技能唯一标识id
+  optional string name = 2;               // 技能名称
+  repeated string aliasName = 3;          // 技能别名
+  optional string scene = 4;              // 技能动图
+  optional string property = 5;           // 技能属性
+  optional PBSkillKind kind = 6;          // 技能分类
+  optional string description = 7;        // 技能描述
+  optional int32 power = 8;               // 威力
+  optional int32 hit = 9;                 // 命中率
+  optional PBSkillPP pp = 10;             // 技能pp数
+  repeated string features = 11;          // 技能相关特性说明
+  repeated string effect = 12;            // 技能附加效果
+  optional PBSkillRange range = 13;       // 技能范围
+  optional PBZSkill zSkill = 14;          // 技能Z招式
+  optional PBSkillPokemon pokemons = 15;  // 可以学会该技能的宝可梦
+  optional bool visible = 16;             // 技能是否可见
+  optional uint64 createTime = 17;        // 技能创建时间
+  optional uint64 modifyTime = 18;        // 技能上一次修改时间
+}
+
+message PBSkillList {
+  repeated PBSkill skills = 1;
+  optional int32 offset = 2;
+  optional int32 limit = 3;
+}
+
+message PBSkillSearch {
+  optional string key = 1;
+}
+
+message PBSkillPP {
+  optional int32 base = 1;                // pp基础值
+  optional int32 max = 2;                 // pp最大值
+}
+
+message PBZSkill {
+  optional string crystal = 1;            // Z招式纯晶
+  optional string name = 2;               // Z招式名称
+  optional string power = 3;              // Z招式力量
+}
+
+message PBSkillPokemon {
+  repeated PBSkillLevel level = 1;        // 等级提升习得技能
+  repeated PBSkillInherit inherit = 2;    // 遗传习得技能
+  repeated PBSkillItem item = 3;          // 技能学习机习得技能
+  repeated PBSkillLearn learn = 4;        // 其他途径习得技能
+  repeated PBSkillOthers others = 5;      // 教授习得技能
+}
+
+message PBSkillLevel {
+  optional int32 number = 1;              // 宝可梦编号
+  optional string name = 2;               // 宝可梦名称
+  optional string icon = 3;               // 宝可梦图标
+  repeated string properties = 4;         // 宝可梦属性
+  repeated PBGeneration generations = 5;  // 世代
+
+  message PBGeneration {
+    optional int32 number = 1;            // 第几世代
+    repeated PBValue value = 2;
+  }
+
+  message PBValue {
+    repeated PBVersion version = 1;       // 世代对应游戏版本
+    optional int32 level = 2;             // 对应宝可梦等级
+  }
+}
+
+message PBSkillInherit {
+  optional int32 number = 1;
+  optional string name = 2;
+  optional string icon = 3;
+  repeated string properties = 4;
+  repeated PBGeneration generations = 5;
+
+  message PBParent {
+    optional string name = 1;             // 亲代宝可梦名称
+    optional string icon = 2;             // 亲代宝可梦图标
+  }
+
+  message PBGeneration {
+    optional int32 number = 1;
+    repeated PBParent parents = 2;        // 对应亲代
+  }
+}
+
+message PBSkillItem {
+  optional int32 number = 1;
+  optional string name = 2;
+  optional string icon = 3;
+  repeated string properties = 4;
+  repeated PBGeneration generations = 5;
+
+  message PBGeneration {
+    optional int32 number = 1;
+    repeated int32 items = 2;             // 技能机器编号
+  }
+}
+
+message PBSkillLearn {
+  optional int32 number = 1;
+  optional string name = 2;
+  optional string icon = 3;
+  repeated string properties = 4;
+  repeated PBGeneration generations = 5;
+
+  message PBGeneration {
+    optional int32 number = 1;
+  }
+}
+
+message PBSkillOthers {
+  optional int32 generation = 1;          // 第几世代
+  repeated PBData data = 2;
+
+  message PBData {
+    optional int32 number = 1;            // 宝可梦编号
+    optional string name = 2;             // 宝可梦名称
+    optional string icon = 3;             // 宝可梦图标
+    repeated string properties = 4;       // 宝可梦属性
+    optional string way = 5;              // 宝可梦习得方式说明
+  }
+}

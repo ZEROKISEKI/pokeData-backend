@@ -11,7 +11,8 @@ export const proto = {
     './protos/Common.proto',
     './protos/User.proto',
     './protos/Item.proto',
-    './protos/Person.proto'
+    './protos/Person.proto',
+    './protos/Skill.proto'
   ],
   '-t': 'static-module',
   '-w': 'commonjs',
