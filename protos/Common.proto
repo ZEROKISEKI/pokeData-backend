@@ -7,18 +7,20 @@ message PBIdObject {
 }
 
 message PBListReq {
-  optional int32 offset = 1;              // 用于分页使用的offset
-  optional int32 limit = 2;               // 用于分页使用的limit
+  optional bool visible = 1;              // 搜索可视(不传表示全部)
+  optional int32 offset = 2;              // 用于分页使用的offset
+  optional int32 limit = 3;               // 用于分页使用的limit
 }
 
 message PBVersion {
-  optional string name = 1;               // 全名
-  optional string abstr = 2;              // 摘要, 用于显示
-  optional int32 generation = 3;          // 世代
-  optional string background = 4;         // 背景色
-  optional string font = 5;               // 字体色
-  optional uint64 createTime = 6;         // 创建时间
-  optional uint64 modifyTime = 7;         // 修改时间
+  optional int32 versionId = 1;           // 游戏版本唯一标识id
+  optional string name = 2;               // 全名
+  optional string abstr = 3;              // 摘要, 用于显示
+  optional int32 generation = 4;          // 世代
+  optional string background = 5;         // 背景色
+  optional string font = 6;               // 字体色
+  optional uint64 createTime = 7;         // 创建时间
+  optional uint64 modifyTime = 8;         // 修改时间
 }
 
 message PBVersionList {
@@ -26,11 +28,12 @@ message PBVersionList {
 }
 
 message PBEggGroup {
-  optional string name = 1;               // 名称
-  optional string background = 2;         // 背景色
-  optional string border = 3;             // 边距色
-  optional uint64 createTime = 4;         // 创建时间
-  optional uint64 modifyTime = 5;         // 修改时间
+  optional int32 eggGroupId = 1;          // id
+  optional string name = 2;               // 名称
+  optional string background = 3;         // 背景色
+  optional string border = 4;             // 边距色
+  optional uint64 createTime = 5;         // 创建时间
+  optional uint64 modifyTime = 6;         // 修改时间
 }
 
 message PBEggGroupList {
@@ -38,18 +41,30 @@ message PBEggGroupList {
 }
 
 message PBProperty {
-  optional string name = 1;               // 名称
-  optional string background = 2;         // 背景色
-  optional string border = 3;             // 边距色
-  optional uint64 createTime = 4;         // 创建时间
-  optional uint64 modifyTime = 5;         // 修改时间
+  optional int32 propertyId = 1;
+  optional string name = 2;               // 名称
+  optional string background = 3;         // 背景色
+  optional string border = 4;             // 边距色
+  optional uint64 createTime = 5;         // 创建时间
+  optional uint64 modifyTime = 6;         // 修改时间
 }
 
 message PBPropertyList {
-  repeated PBProperty property = 1;
+  repeated PBProperty properties = 1;
 }
 
 message PBTime {
   optional uint64 start = 1;              // 开始时间
   optional uint64 end = 2;                // 结束时间
+}
+
+message PBColumn {
+  optional string key = 1;                // 栏目的键
+  optional string value = 2;              // 栏目的值
+}
+
+enum PBSex {
+  MALE = 1;                               // 男
+  FEMALE = 2;                             // 女
+  UNKNOW = 3;                             // 未知
 }
