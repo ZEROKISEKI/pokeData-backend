@@ -1,0 +1,185 @@
+import "Common.proto";
+import "Skill.proto";
+
+package PokeData;
+
+message PBPokemon {
+  optional int32 pokemonId = 1;                         // 宝可梦唯一id
+  optional int32 number = 2;                            // 宝可梦编号
+  optional string name = 3;                             // 宝可梦名称
+  repeated string aliasName = 4;                        // 宝可梦别名
+  optional string avatar = 5;                           // 宝可梦立绘
+  optional string icon = 6;                             // 宝可梦图标
+  repeated string properties = 7;                       // 宝可梦属性
+  repeated PBFeature features = 8;                      // 宝可梦特性
+  optional PBFeature specialFeature = 9;                // 宝可梦隐藏特性(梦特性)
+  optional PBPokemonSex sex = 10;                       // 宝可梦性别比例
+  optional PBPokemonCapture capture = 11;               // 宝可梦捕获数据
+  optional double weight = 12;                          // 宝可梦身高
+  optional double high = 13;                            // 宝可梦体重
+  optional PBPokemonHatch hatch = 14;                   // 宝可梦孵化数据
+  repeated string eggGroups = 15;                       // 宝可梦所属蛋群
+  optional PBPokemonAbility point = 16;                 // 该宝可梦努力值分布
+  optional PBPokemonRaceAbility racePoint = 17;         // 宝可梦种族值
+  repeated PBMega mega = 18;                            // mega形态
+  repeated PBSpecial special = 19;                      // 特殊形态
+  repeated PBPhase phase = 20;                          // 属性相性
+  optional PBPokemonSkill skill = 21;                   // 该宝可梦习得技能
+  repeated PBEvolution evolution = 22;                  // 一般进化链
+  optional PBMegaEvolution megaEvolution = 23;          // mega形态进化链
+  repeated PBEvolutionPokemon specialEvolution = 24;    // 特殊形态进化链
+  optional bool visible = 25;                           // 数据是否可见
+  optional uint64 createTime = 26;                      // 创建时间
+  optional uint64 modifyTime = 27;                      // 上一次修改时间
+}
+
+message PBPokemonList {
+  repeated PBPokemon pokemons = 1;
+  optional int32 offset = 2;
+  optional int32 limit = 3;
+}
+
+message PBPokemonSex {
+  optional int32 male = 1;                              // 雄性比例
+  optional int32 female = 2;                            // 雌性比例
+}
+
+message PBPokemonCapture {
+  optional double percent = 1;                          // 捕获概率
+  optional int32 point = 2;                             // 捕获度
+}
+
+message PBPokemonHatch {
+  optional int32 period = 1;                            // 孵化周期
+  optional int32 step = 2;                              // 孵化步数
+}
+
+message PBPokemonAbility {
+  optional int32 hp = 1;                                // HP
+  optional int32 atk = 2;                               // 物攻
+  optional int32 def = 3;                               // 物防
+  optional int32 specAtk = 4;                           // 特攻
+  optional int32 specDef = 5;                           // 特防
+  optional int32 spd = 6;                               // 速度
+}
+
+message PBRange {
+  optional int32 min = 1;                               // 最小值
+  optional int32 max = 2;                               // 最大值
+}
+
+message PBPokemonAbilityRange {
+  optional PBRange hp = 1;                              // HP
+  optional PBRange atk = 2;                             // 物攻
+  optional PBRange def = 3;                             // 物防
+  optional PBRange specAtk = 4;                         // 特攻
+  optional PBRange specDef = 5;                         // 特防
+  optional PBRange spd = 6;                             // 速度
+}
+
+message PBPokemonRaceAbility {
+  optional PBPokemonAbility base = 1;                   // 基本种族值
+  optional PBPokemonAbilityRange level50 = 2;           // 50级各项能力数据
+  optional PBPokemonAbilityRange level100 = 3;          // 100级各项能力数据
+}
+
+message PBSpecial {                                     // 特殊形态基本数据(参考PBPokemon)
+  optional string name = 1;                             // 宝可梦名称
+  optional string avatar = 2;                           // 宝可梦立绘
+  optional string icon = 3;                             // 宝可梦图标
+  repeated string properties = 4;                       // 宝可梦属性
+  optional PBFeature feature = 5;                       // 宝可梦特性
+  optional double weight = 6;                           // 宝可梦身高
+  optional double high = 7;                             // 宝可梦体重
+  optional PBPokemonRaceAbility racePoint = 8;          // 宝可梦种族值
+}
+
+message PBMega {                                        // mega形态基本数据(参考PBPokemon)
+  optional string name = 1;                             // 宝可梦名称
+  optional string avatar = 2;                           // 宝可梦立绘
+  optional string icon = 3;                             // 宝可梦图标
+  repeated string properties = 4;                       // 宝可梦属性
+  optional PBFeature feature = 5;                       // 宝可梦特性
+  optional double weight = 6;                           // 宝可梦身高
+  optional double high = 7;                             // 宝可梦体重
+  optional PBPokemonRaceAbility racePoint = 8;          // 宝可梦种族值
+}
+
+message PBPhase {
+  repeated string condition = 1;                        // 相性条件(自身属性, 世代, 自身特性)
+  repeated PBProperty properties = 2;
+
+  message PBProperty {
+    optional string name = 1;                           // 属性名
+    optional string value = 2;                          // 对应倍数(1,2,1/2,1/4,1/8,....)
+  }
+}
+
+message PBPokemonSkill {
+  repeated PBPokemonSkillWay levelWay = 1;              // 宝可梦通过等级提升习得的技能
+  repeated PBPokemonSkillWay itemWay = 2;               // 宝可梦通过技能学习器习得的技能
+  repeated PBPokemonSkillWay inheritWay = 3;            // 宝可梦通过遗传习得的技能
+  repeated PBPokemonSkillWay learnWay = 4;              // 宝可梦通过教授习得的技能
+  repeated PBPokemonSkillWay othersWay = 5;             // 宝可梦通过其他途径习得的技能
+}
+
+message PBPokemonSkillWay {
+  optional int32 generation = 1;                        // 第几世代
+  repeated PBSkill skills = 2;                          // 对应习得技能列表
+
+  message PBItem {
+    optional string name = 1;
+    optional string icon = 2;
+  }
+
+  message PBSkill {
+    optional string name = 1;                           // 技能名称
+    optional string property = 2;                       // 技能属性
+    optional PBSkillKind kind = 3;                      // 技能类型
+    optional int32 power = 4;                           // 技能威力
+    optional int32 hit = 5;                             // 技能命中率
+    optional int32 pp = 6;                              // 技能pp数
+
+    optional int32 level = 7;                           // 技能习得等级
+    optional int32 number = 8;                          // 技能学习器编号
+    repeated PBItem parents = 9;                        // 技能遗传亲代
+    repeated PBVersion version = 10;                    // 技能教授游戏版本
+    optional string way = 11;                           // 其他途径获得技能说明
+  }
+}
+
+message PBEvolution {                                   // 一般进化链
+  optional string title = 1;                            // 进化链模块标题
+  repeated PBChain chains = 2;
+}
+
+message PBMegaEvolution {                               // mega进化链
+  optional PBEvolutionPokemon base = 1;                 // 普通形态
+  repeated PBEvolutionPokemon mega = 2;                 // mega形态
+}
+
+message PBEvolutionPokemon {                            // 进化链的宝可梦模型
+  optional string name = 1;                             // 宝可梦名称
+  optional string image = 2;                            // 宝可梦立绘
+  repeated string properties = 3;                       // 宝可梦属性
+  optional PBCondition condition = 4;
+}
+
+// 原本是都放在PBEvolutionPokemon的, 但是考虑了还是分开为好
+message PBChain {
+  optional string name = 1;                             // 宝可梦名称
+  optional string image = 2;                            // 宝可梦立绘
+  repeated string properties = 3;                       // 宝可梦属性
+  optional PBEvolutionPokemon parent = 4;               // 一对一(父链对子链)
+  repeated PBEvolutionPokemon children = 5;             // 一对多(子链对父链)
+}
+
+message PBCondition {                                   // 进化条件
+  optional string description = 1;                      // 条件文字说明
+  optional PBItem item = 2;                             // 所需道具
+
+  message PBItem {
+    optional string name = 1;
+    optional string icon = 2;
+  }
+}

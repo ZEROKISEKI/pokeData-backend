@@ -12,7 +12,8 @@ export const proto = {
     './protos/User.proto',
     './protos/Item.proto',
     './protos/Person.proto',
-    './protos/Skill.proto'
+    './protos/Skill.proto',
+    './protos/Pokemon.proto'
   ],
   '-t': 'static-module',
   '-w': 'commonjs',
