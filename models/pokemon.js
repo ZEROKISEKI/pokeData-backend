@@ -5,17 +5,20 @@ import uniqueValidator from 'mongoose-unique-validator'
 const Schema = mongoose.Schema
 
 const PokemonSchema = new Schema({
-  number: {						// 编号
+  number: {						// 宝可梦编号
     type: Number,
 	min: 1,
 	required: true,
-	unique: true
+	unique: true,
+	index: true
   },
   name: {						// 名称
     type: String,
 	required: true,
-	unique: true
+	unique: true,
+	index: true
   },
+  aliasName: [String],			// 宝可梦别名
   avatar: {						// 对应立绘图片
     type: String,
 	default: null				// null表示使用默认立绘
@@ -24,12 +27,12 @@ const PokemonSchema = new Schema({
     type: String,
 	default: null				// null表示使用默认图标
   },
-  properties: [String],			// 属性
+  properties: [String],			// 宝可梦属性
   features: [{					// 特性(普通特性)
     name: String,
 	description: String
   }],
-  specialFeatures: {			// 梦特性(隐藏特性)
+  specialFeature: {				// 梦特性(隐藏特性)
     type: {
       name: String,
 	  description: String
@@ -56,29 +59,29 @@ const PokemonSchema = new Schema({
     period: Number,				// 孵化周期
     step: Number				// 步数
   },
-  egg: [String],				// 蛋群
+  eggGroups: [String],			// 蛋群
   point: {
-    hp: {						// HP
+    hp: {						// HP努力值
       type: Number,
 	  default: 0
 	},
-	atk: {						// 攻击
+	atk: {						// 攻击努力值
       type: Number,
 	  default: 0
 	},
-	def: {						// 防御
+	def: {						// 防御努力值
       type: Number,
 	  default: 0
 	},
-	specAtk: {					// 特攻
+	specAtk: {					// 特攻努力值
 	  type: Number,
 	  default: 0
 	},
-	specDef: {					// 特防
+	specDef: {					// 特防努力值
       type: Number,
 	  default: 0
 	},
-	spd: {						// 速度
+	spd: {						// 速度努力值
       type: Number,
 	  default: 0
 	}
@@ -92,7 +95,7 @@ const PokemonSchema = new Schema({
 	  specDef: Number,
 	  spd: Number
 	},
-	level50: {
+	level50: {					// 50级各项能力范围
 	  hp: { max: Number, min: Number },
 	  atk: { max: Number, min: Number },
 	  def: { max: Number, min: Number },
@@ -100,7 +103,7 @@ const PokemonSchema = new Schema({
 	  specDef: { max: Number, min: Number },
 	  spd: { max: Number, min: Number }
 	},
-	level100: {
+	level100: {					// 100级各项能力范围
 	  hp: { max: Number, min: Number },
 	  atk: { max: Number, min: Number },
 	  def: { max: Number, min: Number },
@@ -110,13 +113,13 @@ const PokemonSchema = new Schema({
 	}
   },
   mega: [{						// mega形态(空数组表示没有)
-    name: {
+    name: {						// mega形态名称
       type: String,
 	  required: true
 	},
-	avatar: String,
-	icon: String,
-	properties: [String],
+	avatar: String,				// mega形态立绘
+	icon: String,				// mega形态图标
+	properties: [String],		// mega形态属性
 	feature: {
       name: String,
 	  description: String
@@ -196,194 +199,250 @@ const PokemonSchema = new Schema({
 	properties: [{
       name: String,				// 属性名称
 	  value: {					// 相性倍数
-        type: Number,
+        type: String,
 		default: null
 	  }
 	}]
   }],
-  skills: [{
-    generation: Number,			// 世代
-	level: [{					// 通过升级习得招式
-	  level: {
-		type: Number,
-		default: null
-	  },
-	  name: String,
-	  property: String,			// 招式属性
-	  sort: {					// 招式分类
-		type: String,
-		enum: ['变化', '物理', '特殊']
-	  },
-	  power: {					// 威力
-		type: Number,
-		default: null
-	  },
-	  hit: {					// 命中率
-		type: Number,
-		default: null,
-		max: 100,
-	  },
-	  pp: {						// pp数(使用次数)
-		type: Number
-	  }
+  skill: {
+    levelWay: [{				// 通过升级习得招式
+      generation: Number,
+	  skills: [{
+		level: {
+		  type: Number,
+		  default: null			// 为null表示不能习得该技能，为0表示 -(没有等级要求)
+		},
+		name: String,			// 招式名称
+		property: String,		// 招式属性
+		kind: {					// 招式分类
+		  type: Number,
+		  enum: [1, 2, 3],		// 1: '物理'  2: '特殊'  3: '变化'
+		  default: 1
+		},
+		power: {				// 招式威力
+		  type: Number,
+		  default: null
+		},
+		hit: {					// 招式命中率
+		  type: Number,
+		  default: null,
+		  max: 100,
+		},
+		pp: {					// pp数(使用次数)
+		  type: Number
+		}
+	  }]
 	}],
-	item: [{					// 通过技能学习器习得招式
-	  number: Number,			// 技能机编号
-	  name: String,
-	  property: String,			// 招式属性
-	  sort: {					// 招式分类
-		type: String,
-		enum: ['变化', '物理', '特殊']
-	  },
-	  power: {					// 威力
-		type: Number,
-		default: null
-	  },
-	  hit: {					// 命中率
-		type: Number,
-		default: null,
-		max: 100,
-	  },
-	  pp: {						// pp数(使用次数)
-		type: Number
-	  }
+	itemWay: [{					// 通过技能学习器习得招式
+      generation: Number,
+	  skills: [{
+		number: Number,			// 技能机编号
+		name: String,			// 招式名称
+		property: String,		// 招式属性
+		kind: {					// 招式分类
+		  type: Number,
+		  enum: [1, 2, 3],		// 1: '物理'  2: '特殊'  3: '变化'
+		  default: 1
+		},
+		power: {				// 招式威力
+		  type: Number,
+		  default: null			// 为null 表示 -, 区别于level
+		},
+		hit: {					// 招式命中率
+		  type: Number,
+		  default: null,		// 为null 表示 -, 区别于level
+		  max: 100,
+		},
+		pp: {					// pp数(使用次数)
+		  type: Number
+		}
+	  }]
 	}],
-	egg: [{						// 通过生蛋遗传习得招式
-	  parents: [Number],		// 亲代
-	  name: String,
-	  property: String,			// 招式属性
-	  sort: {					// 招式分类
-		type: String,
-		enum: ['变化', '物理', '特殊']
-	  },
-	  power: {					// 威力
-		type: Number,
-		default: null
-	  },
-	  hit: {					// 命中率
-		type: Number,
-		default: null,
-		max: 100,
-	  },
-	  pp: {						// pp数(使用次数)
-		type: Number
-	  }
+	inheritWay: [{				// 通过生蛋遗传习得招式
+      generation: Number,
+	  skills: [{
+		parents: [{				// 亲代
+		  name: String,
+		  icon: String
+		}],
+		name: String,			// 招式名称
+		property: String,		// 招式属性
+		kind: {					// 招式分类
+		  type: Number,
+		  enum: [1, 2, 3],		// 1: '物理'  2: '特殊'  3: '变化'
+		  default: 1
+		},
+		power: {				// 招式威力
+		  type: Number,
+		  default: null
+		},
+		hit: {					// 招式命中率
+		  type: Number,
+		  default: null,
+		  max: 100,
+		},
+		pp: {					// pp数(使用次数)
+		  type: Number
+		}
+	  }]
 	}],
-	learn: [{					// 通过教授习得招式
-	  version: [{				// 游戏版本
-	    name: String,
-		abstr: String
-	  }],
-	  name: String,
-	  property: String,			// 招式属性
-	  sort: {					// 招式分类
-		type: String,
-		enum: ['变化', '物理', '特殊']
-	  },
-	  power: {					// 威力
-		type: Number,
-		default: null
-	  },
-	  hit: {					// 命中率
-		type: Number,
-		default: null,
-		max: 100,
-	  },
-	  pp: {						// pp数(使用次数)
-		type: Number
-	  }
+	learnWay: [{				// 通过教授习得招式
+      generation: Number,
+	  skills: [{
+		version: [{				// 游戏版本
+		  name: String,
+		  abstr: String
+		}],
+		name: String,			// 招式名称
+		property: String,		// 招式属性
+		kind: {					// 招式分类
+		  type: Number,
+		  enum: [1, 2, 3],		// 1: '物理'  2: '特殊'  3: '变化'
+		  default: 1
+		},
+		power: {				// 招式威力
+		  type: Number,
+		  default: null
+		},
+		hit: {					// 招式命中率
+		  type: Number,
+		  default: null,
+		  max: 100,
+		},
+		pp: {					// pp数(使用次数)
+		  type: Number
+		}
+	  }]
+	}],
+	othersWay: [{				// 通过其他途径习得招式
+	  generation: Number,
+	  skills: [{
+	    name: String,			// 招式名称
+		property: String,		// 招式属性
+		kind: {					// 招式分类
+		  type: Number,
+		  enum: [1, 2, 3],		// 1: '物理'  2: '特殊'  3: '变化'
+		  default: 1
+		},
+		power: {				// 招式威力
+		  type: Number,
+		  default: null
+		},
+		hit: {					// 招式命中率
+		  type: Number,
+		  default: null,
+		  max: 100,
+		},
+		pp: {					// pp数(使用次数)
+		  type: Number
+		},
+		way: String,			// 习得方式说明
+	  }]
 	}]
-  }],
+  },
   evolution: [{					// 进化链
     title: {					// 进化子标题(为null表示没有)
       type: String,
 	  default: null
 	},
-	chains: [{
+	chains: [{					// BFS算法进化链结构
       name: String,
 	  image: String,
 	  properties: [String],
-	  parent: {					// 上级进化链, 为null表示终结
-		type: [{
-		  name: String,
+	  parent: {					// 进化链的上一级(子对父是一对多, 父对子是一对一)
+        type: {
+		  name: String,			// name与chain的name对应
 		  condition: {
 			description: {
 			  type: String,
 			  default: null
 			},
-			icon: {
-			  type: String,
+			item: {
+			  type: {
+			    name: String,
+				icon: String
+			  },
 			  default: null
 			}
 		  }
-		}],
+		},
 		default: null
 	  },
-	  children: {				// 下级进化链, 为null表示终结
-        type: [{
-		  name: String,
-		  condition: {
-		    description: {
-		      type: String,
-			  default: null
+	  children: [{				// 进化链的下一级
+		name: String,
+		condition: {
+		  description: {
+			type: String,
+			default: null
+		  },
+		  item: {
+			type: {
+			  name: String,
+			  icon: String
 			},
-			icon: {
-		      type: String,
-			  default: null
-			}
+			default: null
 		  }
-		}],
-		default: null
-	  }
+		}
+	  }]
 	}]
   }],
   megaEvolution: {				// 超级进化链
     type: {
       base: {
-		name: String,			// 名称
-		image: String,			// 图片
-		properties: [String]	// 属性
+		name: String,			// 宝可梦名称
+		image: String,			// 宝可梦立绘
+		properties: [String]	// 宝可梦属性
 	  },
 	  mega: [{
-		condition: {			// 条件
-		  description: {
+		condition: {			// 宝可梦mega进化条件
+		  description: {		// 进化条件附加文字说明
 			type: String,
 			default: null
 		  },
-		  icon: {
-			type: String,
+		  item: {				// mega石头
+		    type: {
+		      name: String,
+			  icon: String
+			},
 			default: null
 		  }
 		},
-		name: String,			// 名称
-		image: String,			// 图片
-		properties: [String]	// 属性
+		name: String,			// mega形态宝可梦名称
+		image: String,			// mega形态宝可梦立绘
+		properties: [String]	// mega形态宝可梦属性
 	  }]
 	},
 	default: null
   },
-  specialEvolution: [{			// 型态变化链
-    condition: {				// 条件
-	  description: {
+  specialEvolution: [{			// 形态变化链(普通形态也算在这里)
+	condition: {				// 特殊形态变化条件
+	  description: {			// 文字说明
 		type: String,
 		default: null
 	  },
-	  icon: {
-		type: String,
+	  item: {					// 条件物品
+		type: {
+		  name: String,
+		  icon: String
+		},
 		default: null
 	  }
 	},
-	name: String,				// 名称
-	image: String,				// 图片
-	properties: [String]		// 属性
+	name: String,				// 特殊形态宝可梦名称
+	image: String,				// 特殊形态宝可梦立绘
+	properties: [String]		// 特殊形态宝可梦属性
   }],
-  createTime: {               // 文档创建时间
+  visible: {					// 文档是否可见
+    type: Boolean,
+	default: true
+  },
+  createTime: {               	// 文档创建时间
 	type: Date,
 	default: Date.now
   },
-  modifyTime: {               // 文档修改时间
+  modifyTime: {               	// 文档修改时间
 	type: Date,
-	default: Date.now
+	default: null
   }
 })
 
@@ -408,7 +467,7 @@ Pokemon.schema.path('features').validate(value => {
   return value.length >= 1 && value.length <= 2
 }, '一只宝可梦至少有一种普通特性! 最多两种普通特性分布!')
 
-Pokemon.schema.path('egg').validate(value => {
+Pokemon.schema.path('eggGroups').validate(value => {
   return value.length >= 1 && value.length <= 2
 }, '一只宝可梦至少属于一个蛋群! 最多划分到两个蛋群!')
 
