@@ -396,4 +396,169 @@ describe('BaseConfig', () => {
 		done()
 	  })
   })
+
+  it('测试添加特性', done => {
+
+	const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2LCJ1c2VybmFtZSI6Im1vY2hhIiwiYXZhdGFyIjpudWxsLCJsYXN0TG9naW5UaW1lIjoiMjAxNy0wOS0xMFQxNToxNzoyOS40MTZaIiwicm9sZSI6MywiaWF0IjoxNTA1MDU2NjQ5fQ.LVblwrCiQ5qqaRhvM2RfYysgaDa-jbbC6U4TCEmfEjg`
+
+	const body = {
+	  name: '太阳之力',
+	  description: '晴朗天气时，特攻会提高，而每回合ＨＰ会减少。',
+	  effect: [
+	    '大晴天和大日照天气下特攻增至1.5倍，但每回合损失最大ＨＰ的1⁄8。'
+	  ]
+	}
+
+	const requestBody = PokeData.PBFeature.encode(new PokeData.PBFeature(body)).finish()
+	const req = PokeData.PBMessageReq.encode(new PokeData.PBMessageReq({
+	  messageType: PokeData.PBMessageType.ADD_FEATURE,
+	  requestBody,
+	  requestTime: Date.now()
+	})).finish()
+
+	request(server)
+	  .post('/base/feature/add')
+	  .set('Content-Type', 'application/octet-stream')
+	  .set('authorization', `Bearer ${token}`)
+	  .send(req)
+	  .expect(200)
+	  .end((err, res) => {
+		if(err) {
+		  done(err)
+		  return
+		}
+		done()
+	  })
+  })
+
+  it('测试删除特性', done => {
+
+	const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2LCJ1c2VybmFtZSI6Im1vY2hhIiwiYXZhdGFyIjpudWxsLCJsYXN0TG9naW5UaW1lIjoiMjAxNy0wOS0xMFQxNToxNzoyOS40MTZaIiwicm9sZSI6MywiaWF0IjoxNTA1MDU2NjQ5fQ.LVblwrCiQ5qqaRhvM2RfYysgaDa-jbbC6U4TCEmfEjg`
+
+	const id = 4
+
+	const requestBody = PokeData.PBIdObject.encode(new PokeData.PBIdObject({
+	  id
+	})).finish()
+	const req = PokeData.PBMessageReq.encode(new PokeData.PBMessageReq({
+	  messageType: PokeData.PBMessageType.REMOVE_FEATURE,
+	  requestBody,
+	  requestTime: Date.now()
+	})).finish()
+
+	request(server)
+	  .post('/base/feature/remove')
+	  .set('Content-Type', 'application/octet-stream')
+	  .set('authorization', `Bearer ${token}`)
+	  .send(req)
+	  .expect(200)
+	  .end((err, res) => {
+		if(err) {
+		  done(err)
+		  return
+		}
+		done()
+	  })
+  })
+
+  it('测试根据ID获取特性', done => {
+
+	const id = 3
+
+	const requestBody = PokeData.PBIdObject.encode(new PokeData.PBIdObject({
+	  id
+	})).finish()
+	const req = PokeData.PBMessageReq.encode(new PokeData.PBMessageReq({
+	  messageType: PokeData.PBMessageType.GET_FEATURE_BY_ID,
+	  requestBody,
+	  requestTime: Date.now()
+	})).finish()
+	const base64Req = protobuf.util.base64.encode(req, 0, req.length)
+
+	request(server)
+	  .get(`/base/feature/${id}`)
+	  .set('Content-Type', 'application/octet-stream')
+	  .query(base64Req)
+	  .expect(200)
+	  .end((err, res) => {
+		if(err) {
+		  done(err)
+		  return
+		}
+		const response = PokeData.PBMessageRes.decode(res.body)
+		const messageData = PokeData.PBFeature.decode(response.messageData)
+		console.log(messageData)
+		done()
+	  })
+  })
+
+  it('测试获取特性列表', done => {
+	const body = {
+	  visible: true,
+	  offset: 0,
+	  limit: 20
+	}
+
+	const requestBody = PokeData.PBListReq.encode(new PokeData.PBListReq(body)).finish()
+	const req = PokeData.PBMessageReq.encode(new PokeData.PBMessageReq({
+	  messageType: PokeData.PBMessageType.GET_FEATURES,
+	  requestBody,
+	  requestTime: Date.now()
+	})).finish()
+	const base64Req = protobuf.util.base64.encode(req, 0, req.length)
+
+	request(server)
+	  .get('/base/feature')
+	  .set('Content-Type', 'application/octet-stream')
+	  .query(base64Req)
+	  .expect(200)
+	  .end((err, res) => {
+		if(err) {
+		  done(err)
+		  return
+		}
+		const response = PokeData.PBMessageRes.decode(res.body)
+		const messageData = PokeData.PBFeatureList.decode(response.messageData)
+		console.log(messageData.features)
+		done()
+	  })
+  })
+
+  it('测试修改特性', done => {
+
+	const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2LCJ1c2VybmFtZSI6Im1vY2hhIiwiYXZhdGFyIjpudWxsLCJsYXN0TG9naW5UaW1lIjoiMjAxNy0wOS0xMFQxNToxNzoyOS40MTZaIiwicm9sZSI6MywiaWF0IjoxNTA1MDU2NjQ5fQ.LVblwrCiQ5qqaRhvM2RfYysgaDa-jbbC6U4TCEmfEjg`
+
+	const id = 2
+
+	const body = {
+	  visible: false
+	}
+
+	const requestBody = PokeData.PBFeature.encode(new PokeData.PBFeature(body)).finish()
+	const req = PokeData.PBMessageReq.encode(new PokeData.PBMessageReq({
+	  messageType: PokeData.PBMessageType.UPDATE_FEATURE,
+	  requestBody,
+	  requestTime: Date.now()
+	})).finish()
+
+	request(server)
+	  .post(`/base/feature/update/${id}`)
+	  .set('Content-Type', 'application/octet-stream')
+	  .set('authorization', `Bearer ${token}`)
+	  .send(req)
+	  .expect(200)
+	  .end((err, res) => {
+		if(err) {
+		  done(err)
+		  return
+		}
+
+		const response = PokeData.PBMessageRes.decode(res.body)
+		const messageData = PokeData.PBFeature.decode(response.messageData)
+		console.log(messageData)
+
+		done()
+	  })
+  })
+
 })

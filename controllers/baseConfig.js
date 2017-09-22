@@ -431,6 +431,163 @@ class BaseConfig {
 	ctx.response.body = res
   }
 
+  static async getFeatures(ctx, next) {
+	ctx.msgType = PokeData.PBMessageType.GET_FEATURES
+	await next()
+	const req = ctx.pb.req
+	const { offset = 0, limit = 20, visible } = PokeData.PBListReq.toObject(PokeData.PBListReq.decode(req.requestBody))
+	const features = await model.Feature
+	  .find()
+	  .select({
+		'_id': 0,
+		'__v': 0,
+	  })
+	  .skip(offset)
+	  .limit(limit)
+	  .exec()
+	let data = features.map(feature => new PokeData.PBFeature(Object.assign({}, JSON.parse(JSON.stringify(feature)), {
+	  createTime: dateToTime(feature.createTime),
+	  modifyTime: feature.modifyTime ? dateToTime(feature.modifyTime): null
+	})))
+
+	if(typeof visible !== 'undefined') {
+	  data = data.filter(item => item.visible === visible)
+	}
+
+	const messageData = PokeData.PBFeatureList.encode(new PokeData.PBFeatureList({
+	  features: data,
+	  offset,
+	  limit
+	})).finish()
+	const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+	  messageData,
+	  responseTime: Date.now()
+	})).finish()
+	ctx.response.body = res
+  }
+
+  static async addFeature(ctx, next) {
+	if(ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
+	  ctx.status = 401
+	  throw new Error('普通用户不可进行此操作!')
+	}
+	ctx.msgType = PokeData.PBMessageType.ADD_FEATURE
+	await next()
+	const req = ctx.pb.req
+	const requestBody = PokeData.PBFeature.toObject(PokeData.PBFeature.decode(req.requestBody))
+
+	const feature = new model.Feature(Object.assign({
+	  createTime: Date.now()
+	}, requestBody))
+
+	await feature.validate()
+	await feature.save()
+
+	const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+	  responseTime: Date.now()
+	})).finish()
+
+	ctx.response.body = res
+  }
+
+  static async removeFeature(ctx, next) {
+	if(ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
+	  ctx.status = 401
+	  throw new Error('普通用户不可进行此操作!')
+	}
+	ctx.msgType = PokeData.PBMessageType.REMOVE_FEATURE
+	await next()
+	const req = ctx.pb.req
+	const { id } = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+	const { result } = await model.Feature.remove({ featureId: id }).exec()
+	if(!result.n) {
+	  throw new Error('目标不存在!')
+	}
+
+	const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+	  responseTime: Date.now()
+	})).finish()
+
+	ctx.response.body = res
+  }
+
+  static async getFeatureById(ctx, next) {
+	ctx.msgType = PokeData.PBMessageType.GET_FEATURE_BY_ID
+	await next()
+	const req = ctx.pb.req
+	const { id } = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+	const feature = await model.Feature
+	  .findOne({ featureId: id })
+	  .select({
+		'_id': 0,
+		'__v': 0
+	  })
+	  .exec()
+	if(!feature) {
+	  throw new Error('目标不存在!')
+	}
+	const messageData = PokeData.PBFeature
+	  .encode(new PokeData.PBFeature(Object.assign({}, JSON.parse(JSON.stringify(feature)), {
+		createTime: dateToTime(feature.createTime),
+		modifyTime: feature.modifyTime ? dateToTime(feature.modifyTime) : null
+	  }))).finish()
+	const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+	  messageData,
+	  responseTime: Date.now()
+	})).finish()
+
+	ctx.response.body = res
+  }
+
+  static async updateFeature(ctx, next) {
+	if(ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
+	  ctx.status = 401
+	  throw new Error('普通用户不可进行此操作!')
+	}
+	ctx.msgType = PokeData.PBMessageType.UPDATE_FEATURE
+	await next()
+	const req = ctx.pb.req
+	const requestBody = PokeData.PBFeature.decode(req.requestBody)
+	const { id } = ctx.params
+	const oldFeature = await model.Feature
+	  .findOne({ featureId: +id })
+	  .select({ '_id': 0, '__v': 0, 'createTime': 0 })
+	  .exec()
+
+	if(!oldFeature) {
+	  throw new Error('目标不存在!')
+	}
+
+	// 采用toObject方法会出现空数组丢失问题, 换用Object.assign
+	const data = Object.assign({}, requestBody)
+
+	if(data.featureId) {
+	  delete data.featureId
+	}
+	if(data.createTime) {
+	  delete data.createTime
+	}
+	data.modifyTime = Date.now()
+	const result = await model.Feature.update({
+	  featureId: +id
+	}, { $set: data }).exec()
+
+	if(!result.n) {
+	  throw new Error('修改失败! 请重新尝试!')
+	}
+
+	const messageData = PokeData.PBFeature
+	  .encode(new PokeData.PBFeature(Object.assign({}, JSON.parse(JSON.stringify(oldFeature)), data, {
+		createTime: dateToTime(oldFeature.createTime)
+	  }))).finish()
+	const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+	  messageData,
+	  responseTime: Date.now()
+	})).finish()
+
+	ctx.response.body = res
+  }
+
 }
 
 export default BaseConfig

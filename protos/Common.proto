@@ -53,6 +53,22 @@ message PBPropertyList {
   repeated PBProperty properties = 1;
 }
 
+message PBFeature {
+  optional int32 featureId = 1;
+  optional string name = 2;               // 特性名称
+  optional string description = 3;        // 特性说明
+  repeated string effect = 4;             // 特性效果(具体数值)
+  optional bool visible = 5;              // 是否可见
+  optional uint64 createTime = 6;         // 创建时间
+  optional uint64 modifyTime = 7;         // 上一次修改时间
+}
+
+message PBFeatureList {
+  repeated PBFeature features = 1;
+  optional int32 offset = 2;
+  optional int32 limit = 3;
+}
+
 message PBTime {
   optional uint64 start = 1;              // 开始时间
   optional uint64 end = 2;                // 结束时间
