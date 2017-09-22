@@ -12,6 +12,10 @@ export default async function (ctx, next) {
       return ctx.throw(401, '请先进行登录!')
 	}
 
+	if (err.status === 405) {
+      return ctx.throw(405, err.message)
+	}
+
 	if (err instanceof protobuf.util.ProtocolError) {
       return ctx.throw(403, err.message)
 	}
