@@ -123,6 +123,7 @@ message PBSkillLearn {
 
   message PBGeneration {
     optional int32 number = 1;
+    repeated PBVersion version = 2;       // 对应游戏版本(同一世代某些版本不能教授对应技能)
   }
 }
 
