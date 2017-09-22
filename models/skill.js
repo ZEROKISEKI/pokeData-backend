@@ -112,7 +112,11 @@ const SkillSchema = new Schema({
 	  icon: String,
 	  properties: [String],
       generations: [{
-	    number: Number
+	    number: Number,
+		version: [{         	// 对应游戏版本
+		  name: String,
+		  abstr: String
+		}]
 	  }]
     }],
     others: [{                	// 特殊途径
