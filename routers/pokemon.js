@@ -1,20 +1,22 @@
 import Router from 'koa-router'
 import Pokemon from '../controllers/pokemon'
+import jwt from '../middlewares/jwt'
 
 const router = new Router({
   prefix: '/pokemon'
 })
 
-router.get('/', Pokemon.getPokemons)
+router.use(jwt({
+  path: ['/pokemon/all', '/pokemon/search', /pokemon\/([0-9]+)/]
+}))
 
-router.post('/add', Pokemon.addPokemon)
-
+router.get('/all', Pokemon.getPokemons)
 router.get('/search', Pokemon.searchPokemons)
 
-router.post('/update/:id', Pokemon.updatePokemonById)
+router.post('/add', Pokemon.addPokemon)
+router.post('/remove', Pokemon.removePokemon)
 
-router.delete('/remove/:id', Pokemon.removePokemon)
-
-router.get('/:id', Pokemon.getPokemonById)
+router.get('/:id([0-9]+)', Pokemon.getPokemonById)
+router.post('/:id([0-9]+)', Pokemon.updatePokemonById)
 
 export default router
