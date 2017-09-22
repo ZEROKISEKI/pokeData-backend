@@ -49,7 +49,7 @@ message PBItemSearch {
   optional string key = 1;                      // 搜索关键字(道具名称)
   optional PBItemUsage usage = 2;               // PBItemUsage
   optional bool scene = 3;                      // 使用场景
-  optional bool visible = 4[default = true];    // 是否可见
+  optional bool visible = 4;                    // 是否可见
   optional PBTime modifyTime = 5;               // 修改时间
   optional PBTime createTime = 6;               // 创建时间
 }
