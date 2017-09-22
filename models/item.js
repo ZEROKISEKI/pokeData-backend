@@ -10,6 +10,7 @@ const ItemSchema = new Schema({
     required: true,
     unique: true
   },
+  aliasName: [String],        // 道具别名
   image: {                    // 道具图像
     type: String,
     default: null
@@ -21,21 +22,13 @@ const ItemSchema = new Schema({
   description: String,        // 说明
   result: [String],           // 效果(不等于说明)
   scene: {                    // 使用场景
-    type: {
-      out: {
-        type: Boolean,
-        default: false
-      },
-      in: {
-        type: Boolean,
-        default: false
-      }
-    },
+    type: Boolean,            // 为true表示对战外, 为false表示对战内
     default: null             // 为null表示没有使用场景
   },
   usage: {
-    type: String,             // "一次性" , "不可使用"
-    default: null
+    type: Number,             // 1: "一次性" , 2: "不可使用" ,  3: "多次使用"
+    enum: [1, 2, 3],
+    default: 1
   },
   appearance: [String],       // 第一次出现
   pay: {                      // 购入价格
@@ -60,11 +53,15 @@ const ItemSchema = new Schema({
     }],
     repeat: [{                // 重复获取
       version: [{
-		name: String,
-		abstr: String
+		name: String,         // 全名
+		abstr: String         // 缩略
 	  }],
       way: String
     }]
+  },
+  visible: {                  // 道具是否可见
+	type: Boolean,
+	default: true
   },
   createTime: {               // 文档创建时间
     type: Date,
@@ -72,7 +69,7 @@ const ItemSchema = new Schema({
   },
   modifyTime: {               // 文档修改时间
     type: Date,
-    default: Date.now
+    default: null
   }
 })
 
@@ -81,7 +78,6 @@ ItemSchema.plugin(autoIncrement.plugin, {
   field: 'itemId',
   startAt: 1
 })
-
 ItemSchema.plugin(uniqueValidator)
 
 const Item = mongoose.model('Item', ItemSchema)
