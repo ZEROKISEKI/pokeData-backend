@@ -5,6 +5,7 @@ import User from './user'
 import EggGroup from './eggGroup'
 import Version from './version'
 import Property from './property'
+import Person from './person'
 
 export {
   Pokemon,
@@ -13,5 +14,6 @@ export {
   User,
   EggGroup,
   Version,
-  Property
+  Property,
+  Person
 }
