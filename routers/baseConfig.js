@@ -3,11 +3,11 @@ import jwt from '../middlewares/jwt'
 import BaseConfig from '../controllers/baseConfig'
 
 const router = new Router({
-	prefix: '/base'
+  prefix: '/base'
 })
 
 router.use(jwt({
-	path: ['/base/egg', '/base/version', '/base/property', '/base/feature', /base\/feature\/([0-9]+)/]
+  path: ['/base/egg', '/base/version', '/base/property', '/base/feature', /base\/feature\/([0-9]+)/]
 }))
 
 router.get('/egg', BaseConfig.getEggGroups)

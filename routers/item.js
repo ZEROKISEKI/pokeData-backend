@@ -3,11 +3,11 @@ import Item from '../controllers/item'
 import jwt from '../middlewares/jwt'
 
 const router = new Router({
-	prefix: '/item'
+  prefix: '/item'
 })
 
 router.use(jwt({
-	path: []
+  path: []
 }))
 
 router.get('/all', Item.getItems)
