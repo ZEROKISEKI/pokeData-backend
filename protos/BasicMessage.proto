@@ -5,12 +5,12 @@ enum PBMessageType {
 
   // ------------------  POKEMONS ----------------------
 
-  GET_POKEMONS = 100001;                  // 获取神奇宝贝
-  GET_POKEMON_BY_ID = 100002;             // 根据ID获取神奇宝贝
-  SEARCH_POKEMONS = 100003;               // 搜索神奇宝贝
-  ADD_POKEMONS = 100004;                  // 添加神奇宝贝
-  UPDATE_POKEMONS = 100005;               // 修改神奇宝贝
-  REMOVE_POKEMONS = 100006;               // 删除神奇宝贝
+  GET_POKEMONS = 100001;                  // 获取神奇宝贝 PBListReq -> PBPokemonList
+  GET_POKEMON_BY_ID = 100002;             // 根据ID获取神奇宝贝 PBIdObject -> PBPokemon
+  SEARCH_POKEMONS = 100003;               // 搜索神奇宝贝 PBPokemonSearch -> PBPokemonList
+  ADD_POKEMON = 100004;                   // 添加神奇宝贝 PBPokemon -> void
+  UPDATE_POKEMON = 100005;                // 修改神奇宝贝 PBPokemon -> PBPokemon
+  REMOVE_POKEMON = 100006;                // 删除神奇宝贝 PBIdObject -> void
 
 
   // ------------------  ITEMS -------------------------
@@ -67,6 +67,11 @@ enum PBMessageType {
   ADD_PROPERTY = 600010;                  // 添加属性 PBProperty -> void
   UPDATE_PROPERTY = 600011;               // 修改属性 PBProperty -> PBProperty
   REMOVE_PROPERTY = 600012;               // 删除属性 PBIdObject -> void
+  GET_FEATURES = 600013;                  // 获取特性 PBListReq -> PBFeatureList
+  GET_FEATURE_BY_ID = 600014;             // 根据ID获取特性 PBIdObject -> PBFeature
+  ADD_FEATURE = 600015;                   // 添加特性 PBFeature -> void
+  REMOVE_FEATURE = 600016;                // 删除特性 PBIdObject -> void
+  UPDATE_FEATURE = 600017;                // 修改特性 PBFeature -> PBFeature
 }
 
 message PBMessageReq {
