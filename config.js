@@ -7,28 +7,28 @@ export const mongodb = {
 // 按照命令行的顺序来
 export const proto = {
   'files': [
-    './protos/BasicMessage.proto',
-    './protos/Common.proto',
-    './protos/User.proto',
-    './protos/Item.proto',
-    './protos/Person.proto',
-    './protos/Skill.proto',
-    './protos/Pokemon.proto'
+	'./protos/BasicMessage.proto',
+	'./protos/Common.proto',
+	'./protos/User.proto',
+	'./protos/Item.proto',
+	'./protos/Person.proto',
+	'./protos/Skill.proto',
+	'./protos/Pokemon.proto'
   ],
   '-t': 'static-module',
   '-w': 'commonjs',
   '-o': './common/model.js',
   * [Symbol.iterator]() {
-    let result = []
-    for(const key of Object.keys(this)) {
-      if(this[key] === null) {
+	let result = []
+	for (const key of Object.keys(this)) {
+	  if (this[key] === null) {
 		result.push(key)
-      } else if(key !== 'files') {
+	  } else if (key !== 'files') {
 		result.splice(result.length, 0, key, this[key])
-      }
-    }
+	  }
+	}
 	result = [...result, ...this['files']]
-    yield result
+	yield result
   }
 }
 

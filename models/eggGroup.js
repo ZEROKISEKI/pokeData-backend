@@ -6,27 +6,27 @@ const Schema = mongoose.Schema
 
 const EggGroupSchema = new Schema({
   name: {
-    type: String,
+	type: String,
 	required: true,
 	unique: true,
 	index: true
   },
   color: {									// 颜色设置
-    background: {							// 背景色
-      type: String,
+	background: {							// 背景色
+	  type: String,
 	  default: '#BBBBAA'
 	},
 	border: {								// 边距色
-      type: String,
+	  type: String,
 	  default: '#8A8A7B'
 	}
   },
   modifyTime: {
-    type: Date,
+	type: Date,
 	default: null
   },
   createTime: {
-    type: Date,
+	type: Date,
 	default: Date.now
   }
 })

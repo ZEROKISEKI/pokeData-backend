@@ -6,18 +6,18 @@ const Schema = mongoose.Schema
 
 const FeatureSchema = new Schema({
   name: {						// 特性名称
-    type: String,
+	type: String,
 	unique: true,
 	index: true,
 	required: true
   },
   description: {				// 特性描述
-    type: String,
+	type: String,
 	required: true
   },
   effect: [String],				// 具体效果
   visible: {					// 是否可见
-    type: Boolean,
+	type: Boolean,
 	default: true
   },
   modifyTime: {

@@ -2,7 +2,7 @@ import app from '../app'
 import http from 'http'
 import pbjs from 'protobufjs/cli/pbjs'
 import ora from 'ora'
-import { proto } from '../config'
+import {proto} from '../config'
 
 const server = http.createServer(app.callback())
 const spinner = ora('building proto model...\n').start()
@@ -12,7 +12,7 @@ const spinner = ora('building proto model...\n').start()
 pbjs.main(...proto, (err, output) => {
   if (err) spinner.fail('building proto failed! check your *.proto file!\n')
   else {
-    spinner.succeed('build proto model success!\n')
+	spinner.succeed('build proto model success!\n')
 	server.listen(3006)
   }
 })

@@ -24,7 +24,7 @@ app.use(convert(bodyParser({
   buffer: true,
   // fields: 'body',
   extendTypes: {
-    buffer: ['application/octet-stream']
+	buffer: ['application/octet-stream']
   }
 })))
 

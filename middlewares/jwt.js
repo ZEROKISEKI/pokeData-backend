@@ -1,5 +1,5 @@
 import koaJwt from 'koa-jwt'
-import { jwt } from "../config"
+import {jwt} from "../config"
 
 export default function (unless) {
   return koaJwt({

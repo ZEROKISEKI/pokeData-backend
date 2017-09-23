@@ -1,22 +1,24 @@
 import * as model from '../models'
-import { PokeData } from '../common/model'
-import { dateToTime } from '../utils/moment'
+import {PokeData} from '../common/model'
+import {dateToTime} from '../utils/moment'
 
 class Item {
 
   // 获取道具
   static async getItems(ctx, next) {
 
-    ctx.msgType = PokeData.PBMessageType.GET_ITEMS
+	ctx.msgType = PokeData.PBMessageType.GET_ITEMS
 	await next()
 	const req = ctx.pb.req
 	const requestBody = PokeData.PBListReq.toObject(PokeData.PBListReq.decode(req.requestBody))
 
 	let items = await model.Item
 	  .find()
-	  .select({ '__v': 0, '_id': 0,
+	  .select({
+		'__v': 0, '_id': 0,
 		'obtain.one._id': 0, 'obtain.one.version._id': 0,
-		'obtain.repeat._id': 0, 'obtain.repeat.version._id': 0 })
+		'obtain.repeat._id': 0, 'obtain.repeat.version._id': 0
+	  })
 	  .skip(requestBody.offset)
 	  .limit(requestBody.limit)
 	  .exec()
@@ -30,7 +32,7 @@ class Item {
 	  return new PokeData.PBItem(item)
 	})
 
-	if(typeof requestBody.visible !== 'undefined') {
+	if (typeof requestBody.visible !== 'undefined') {
 	  data = data.filter(item => item.visible === requestBody.visible)
 	}
 
@@ -51,18 +53,18 @@ class Item {
 
   // 根据ID获取道具
   static async getItemById(ctx, next) {
-    ctx.msgType = PokeData.PBMessageType.GET_ITEM_BY_ID
+	ctx.msgType = PokeData.PBMessageType.GET_ITEM_BY_ID
 	await next()
 	const req = ctx.pb.req
-	const { id } = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+	const {id} = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
 
 	const item = await model.Item
-	  .findOne({ itemId: id })
-	  .select({ '__v': 0, '_id': 0, 'createTime': 0 })
+	  .findOne({itemId: id})
+	  .select({'__v': 0, '_id': 0, 'createTime': 0})
 	  .exec()
 
-	if(!item) {
-      throw new Error('道具不存在!')
+	if (!item) {
+	  throw new Error('道具不存在!')
 	}
 
 	// 转成JSON字符串, 解决嵌套对象携带ObjectId或者迭代产生ObjectId的问题
@@ -70,7 +72,7 @@ class Item {
 
 	const messageData = PokeData.PBItem
 	  .encode(new PokeData.PBItem(Object.assign({}, data, {
-	    modifyTime: dateToTime(data.modifyTime)
+		modifyTime: dateToTime(data.modifyTime)
 	  }))).finish()
 	const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
 	  messageData,
@@ -82,14 +84,14 @@ class Item {
 
   // TODO 搜索道具接口
   static async searchItems(ctx, next) {
-    ctx.msgType = PokeData.PBMessageType.SEARCH_ITEMS
+	ctx.msgType = PokeData.PBMessageType.SEARCH_ITEMS
 	await next()
 	const req = ctx.pb.req
   }
 
   // 修改道具(仅限管理员和超级管理员)
   static async updateItem(ctx, next) {
-	if(ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
+	if (ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
 	  ctx.status = 401
 	  throw new Error('普通用户不可进行此操作!')
 	}
@@ -97,14 +99,14 @@ class Item {
 	await next()
 	const req = ctx.pb.req
 	const requestBody = PokeData.PBItem.decode(req.requestBody)
-	const { id } = ctx.params
+	const {id} = ctx.params
 
 	const oldItem = await model.Item
-	  .findOne({ itemId: +id })
-	  .select({ '_id': 0, '__v': 0, 'createTime': 0 })
+	  .findOne({itemId: +id})
+	  .select({'_id': 0, '__v': 0, 'createTime': 0})
 	  .exec()
 
-	if(!oldItem) {
+	if (!oldItem) {
 	  throw new Error('目标道具不存在!')
 	}
 
@@ -115,7 +117,7 @@ class Item {
 	data.modifyTime = Date.now()
 	const modify = await model.Item.update({
 	  itemId: +id
-	}, { $set: data }).exec()
+	}, {$set: data}).exec()
 
 	if (!modify.n) {
 	  throw new Error('修改道具失败! 请重新尝试!')
@@ -133,7 +135,7 @@ class Item {
 
   // 添加道具(仅限管理员和超级管理员)
   static async addItem(ctx, next) {
-    if(ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
+	if (ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
 	  ctx.status = 401
 	  throw new Error('普通用户不可进行此操作!')
 	}
@@ -160,7 +162,7 @@ class Item {
 
   // 删除道具(仅限管理员和超级管理员)
   static async removeItem(ctx, next) {
-	if(ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
+	if (ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
 	  ctx.status = 401
 	  throw new Error('普通用户不可进行此操作!')
 	}
@@ -168,12 +170,12 @@ class Item {
 	ctx.msgType = PokeData.PBMessageType.REMOVE_ITEM
 	await next()
 	const req = ctx.pb.req
-	const { id } = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+	const {id} = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
 
 
-	const result = await model.Item.remove({ itemId: id }).exec()
+	const result = await model.Item.remove({itemId: id}).exec()
 
-	if(!result.result.n) {
+	if (!result.result.n) {
 	  throw new Error('目标道具不存在!')
 	}
 

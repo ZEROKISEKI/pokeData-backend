@@ -1,5 +1,5 @@
-import { PokeData } from '../../common/model'
-import { expect } from 'chai'
+import {PokeData} from '../../common/model'
+import {expect} from 'chai'
 import server from '../../bin/www'
 import request from 'supertest'
 import protobuf from 'protobufjs/minimal'
@@ -7,10 +7,10 @@ import protobuf from 'protobufjs/minimal'
 describe('Item', () => {
   it('测试添加道具', done => {
 
-    const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2LCJ1c2VybmFtZSI6Im1vY2hhIiwiYXZhdGFyIjpudWxsLCJsYXN0TG9naW5UaW1lIjoiMjAxNy0wOS0xMFQxNToxNzoyOS40MTZaIiwicm9sZSI6MywiaWF0IjoxNTA1MDU2NjQ5fQ.LVblwrCiQ5qqaRhvM2RfYysgaDa-jbbC6U4TCEmfEjg`
+	const token = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE2LCJ1c2VybmFtZSI6Im1vY2hhIiwiYXZhdGFyIjpudWxsLCJsYXN0TG9naW5UaW1lIjoiMjAxNy0wOS0xMFQxNToxNzoyOS40MTZaIiwicm9sZSI6MywiaWF0IjoxNTA1MDU2NjQ5fQ.LVblwrCiQ5qqaRhvM2RfYysgaDa-jbbC6U4TCEmfEjg`
 
 	const body = {
-      name: '白银喷雾',
+	  name: '白银喷雾',
 	  aliasName: ['白銀噴霧器'],
 	  description: '弱小的野生宝可梦将完全不会出现。效果比除虫喷雾更持久。',
 	  result: ['使用后在200步之内不会遇见比队伍中第一只宝可梦等级低的野生宝可梦。'],
@@ -20,7 +20,7 @@ describe('Item', () => {
 	  sale: 250,
 	  visible: true,
 	  obtain: {
-        one: [{
+		one: [{
 		  version: [{
 			name: '精灵宝可梦红宝石蓝宝石版',
 			abstr: '红宝石'
@@ -32,7 +32,7 @@ describe('Item', () => {
 			abstr: '绿宝石'
 		  }],
 		  way: '１１３号道路，１１９号道路，１２３号道路，送火山'
-		},  {
+		}, {
 		  version: [{
 			name: '精灵宝可梦钻石珍珠版',
 			abstr: '钻石'
@@ -96,7 +96,7 @@ describe('Item', () => {
 
 	body.obtain.one = body.obtain.one.map(item => {
 	  item.version = item.version.map(version => {
-	    return new PokeData.PBVersion(version)
+		return new PokeData.PBVersion(version)
 	  })
 	  return new PokeData.PBItemObtain.PBObtainContent(item)
 	})
@@ -126,7 +126,7 @@ describe('Item', () => {
 	  .expect(200)
 	  .end((err, res) => {
 
-      	if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -158,7 +158,7 @@ describe('Item', () => {
 	  .expect(200)
 	  .end((err, res) => {
 
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -189,8 +189,8 @@ describe('Item', () => {
 	  .expect(200)
 	  .end((err, res) => {
 
-	  	if(err) {
-	  	  done(err)
+		if (err) {
+		  done(err)
 		  return
 		}
 
@@ -227,13 +227,13 @@ describe('Item', () => {
 	  .expect(200)
 	  .end((err, res) => {
 
-	  	if(err) {
-	  	  done(err)
+		if (err) {
+		  done(err)
 		  return
 		}
 
 		const response = PokeData.PBMessageRes.decode(res.body)
-		const messageData  = PokeData.PBItemList.decode(response.messageData)
+		const messageData = PokeData.PBItemList.decode(response.messageData)
 		console.log(messageData.items)
 
 		done()
@@ -301,8 +301,8 @@ describe('Item', () => {
 	  .expect(200)
 	  .end((err, res) => {
 
-	  	if(err) {
-	  	  done(err)
+		if (err) {
+		  done(err)
 		  return
 		}
 

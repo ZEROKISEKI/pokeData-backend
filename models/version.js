@@ -6,17 +6,17 @@ const Schema = mongoose.Schema
 
 const VersionSchema = new Schema({
   name: {							// 全名
-    type: String,
+	type: String,
 	required: true
   },
   abstr: {							// 展示名称
-    type: String,
+	type: String,
 	required: true,
 	index: true,
 	unique: true
   },
   generation: {						// 游戏版本所属世代
-    type: Number,
+	type: Number,
 	required: true,
 	default: 1,
 	min: 1
@@ -32,11 +32,11 @@ const VersionSchema = new Schema({
 	}
   },
   createTime: {
-    type: Date,
+	type: Date,
 	default: Date.now
   },
   modifyTime: {
-    type: Date,
+	type: Date,
 	default: null
   }
 })

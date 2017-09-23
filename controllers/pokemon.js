@@ -1,6 +1,6 @@
 import * as model from '../models'
-import { PokeData } from '../common/model'
-import { dateToTime } from "../utils/moment"
+import {PokeData} from '../common/model'
+import {dateToTime} from "../utils/moment"
 
 class Pokemon {
 
@@ -8,15 +8,15 @@ class Pokemon {
 	ctx.msgType = PokeData.PBMessageType.GET_POKEMON_BY_ID
 	await next()
 	const req = ctx.pb.req
-	const { id } = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+	const {id} = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
 	const pokemon = await model.Pokemon
-	  .findOne({ pokemonId: id })
+	  .findOne({pokemonId: id})
 	  .select({
 		'_id': 0,
 		'__v': 0
 	  })
 	  .exec()
-	if(!pokemon) {
+	if (!pokemon) {
 	  throw new Error('宝可梦不存在!')
 	}
 	const messageData = PokeData.PBPokemon
@@ -36,7 +36,7 @@ class Pokemon {
 	ctx.msgType = PokeData.PBMessageType.GET_POKEMONS
 	await next()
 	const req = ctx.pb.req
-	const { offset = 0, limit = 20, visible } = PokeData.PBListReq.toObject(PokeData.PBListReq.decode(req.requestBody))
+	const {offset = 0, limit = 20, visible} = PokeData.PBListReq.toObject(PokeData.PBListReq.decode(req.requestBody))
 	const pokemons = await model.Pokemon
 	  .find()
 	  .select({
@@ -48,10 +48,10 @@ class Pokemon {
 	  .exec()
 	let data = pokemons.map(pokemon => new PokeData.PBPokemon(Object.assign({}, JSON.parse(JSON.stringify(pokemon)), {
 	  createTime: dateToTime(pokemon.createTime),
-	  modifyTime: pokemon.modifyTime ? dateToTime(pokemon.modifyTime): null
+	  modifyTime: pokemon.modifyTime ? dateToTime(pokemon.modifyTime) : null
 	})))
 
-	if(typeof visible !== 'undefined') {
+	if (typeof visible !== 'undefined') {
 	  data = data.filter(item => item.visible === visible)
 	}
 
@@ -68,7 +68,7 @@ class Pokemon {
   }
 
   static async addPokemon(ctx, next) {
-	if(ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
+	if (ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
 	  ctx.status = 401
 	  throw new Error('普通用户不可进行此操作!')
 	}
@@ -92,16 +92,16 @@ class Pokemon {
   }
 
   static async removePokemon(ctx, next) {
-	if(ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
+	if (ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
 	  ctx.status = 401
 	  throw new Error('普通用户不可进行此操作!')
 	}
 	ctx.msgType = PokeData.PBMessageType.REMOVE_POKEMON
 	await next()
 	const req = ctx.pb.req
-	const { id } = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
-	const { result } = await model.Pokemon.remove({ pokemonId: id }).exec()
-	if(!result.n) {
+	const {id} = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+	const {result} = await model.Pokemon.remove({pokemonId: id}).exec()
+	if (!result.n) {
 	  throw new Error('宝可梦不存在!')
 	}
 
@@ -114,17 +114,17 @@ class Pokemon {
 
   static async updatePokemonById(ctx, next) {
 	let token
-	if(!ctx.headers['authorization']) {
+	if (!ctx.headers['authorization']) {
 	  ctx.status = 401
 	  throw new Error('无权进行此操作!')
 	}
 	token = ctx.headers['authorization'].split(' ')[1]
-	if(!token) {
+	if (!token) {
 	  ctx.status = 401
 	  throw new Error('不正确的身份认证!')
 	}
-	const { payload: { role } } = decode(token)
-	if(role === PokeData.PBUserRole.NORMAL_USER) {
+	const {payload: {role}} = decode(token)
+	if (role === PokeData.PBUserRole.NORMAL_USER) {
 	  ctx.status = 401
 	  throw new Error('普通用户不可进行此操作!')
 	}
@@ -133,31 +133,31 @@ class Pokemon {
 	await next()
 	const req = ctx.pb.req
 	const requestBody = PokeData.PBPokemon.decode(req.requestBody)
-	const { id } = ctx.params
+	const {id} = ctx.params
 	const oldPokemon = await model.Pokemon
-	  .findOne({ pokemonId: +id })
-	  .select({ '_id': 0, '__v': 0, 'createTime': 0 })
+	  .findOne({pokemonId: +id})
+	  .select({'_id': 0, '__v': 0, 'createTime': 0})
 	  .exec()
 
-	if(!oldPokemon) {
+	if (!oldPokemon) {
 	  throw new Error('宝可梦不存在!')
 	}
 
 	// 采用toObject方法会出现空数组丢失问题, 换用Object.assign
 	const data = Object.assign({}, requestBody)
 
-	if(data.pokemonId) {
+	if (data.pokemonId) {
 	  delete data.pokemonId
 	}
-	if(data.createTime) {
+	if (data.createTime) {
 	  delete data.createTime
 	}
 	data.modifyTime = Date.now()
 	const result = await model.Pokemon.update({
 	  pokemonId: +id
-	}, { $set: data }).exec()
+	}, {$set: data}).exec()
 
-	if(!result.n) {
+	if (!result.n) {
 	  throw new Error('修改宝可梦失败! 请重新尝试!')
 	}
 

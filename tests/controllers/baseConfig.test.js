@@ -1,5 +1,5 @@
-import { PokeData } from '../../common/model'
-import { expect } from 'chai'
+import {PokeData} from '../../common/model'
+import {expect} from 'chai'
 import server from '../../bin/www'
 import request from 'supertest'
 import protobuf from 'protobufjs/minimal'
@@ -23,7 +23,7 @@ describe('BaseConfig', () => {
 	  .expect(200)
 	  .end((err, res) => {
 
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -62,8 +62,8 @@ describe('BaseConfig', () => {
 	  .send(req)
 	  .expect(200)
 	  .end((err, res) => {
-	  	if (err) {
-	  	  done(err)
+		if (err) {
+		  done(err)
 		  return
 		}
 		done()
@@ -156,7 +156,7 @@ describe('BaseConfig', () => {
 	  .expect(200)
 	  .end((err, res) => {
 
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -192,8 +192,8 @@ describe('BaseConfig', () => {
 	  .send(req)
 	  .expect(200)
 	  .end((err, res) => {
-	  	if (err) {
-	  	  done(err)
+		if (err) {
+		  done(err)
 		  return
 		}
 		done()
@@ -284,7 +284,7 @@ describe('BaseConfig', () => {
 	  .expect(200)
 	  .end((err, res) => {
 
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -405,7 +405,7 @@ describe('BaseConfig', () => {
 	  name: '太阳之力',
 	  description: '晴朗天气时，特攻会提高，而每回合ＨＰ会减少。',
 	  effect: [
-	    '大晴天和大日照天气下特攻增至1.5倍，但每回合损失最大ＨＰ的1⁄8。'
+		'大晴天和大日照天气下特攻增至1.5倍，但每回合损失最大ＨＰ的1⁄8。'
 	  ]
 	}
 
@@ -423,7 +423,7 @@ describe('BaseConfig', () => {
 	  .send(req)
 	  .expect(200)
 	  .end((err, res) => {
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -453,7 +453,7 @@ describe('BaseConfig', () => {
 	  .send(req)
 	  .expect(200)
 	  .end((err, res) => {
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -481,7 +481,7 @@ describe('BaseConfig', () => {
 	  .query(base64Req)
 	  .expect(200)
 	  .end((err, res) => {
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -513,7 +513,7 @@ describe('BaseConfig', () => {
 	  .query(base64Req)
 	  .expect(200)
 	  .end((err, res) => {
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -548,7 +548,7 @@ describe('BaseConfig', () => {
 	  .send(req)
 	  .expect(200)
 	  .end((err, res) => {
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}

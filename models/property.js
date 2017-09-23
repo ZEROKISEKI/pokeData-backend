@@ -6,7 +6,7 @@ const Schema = mongoose.Schema
 
 const PropertySchema = new Schema({
   name: {
-    type: String,
+	type: String,
 	required: true,
 	unique: true,
 	index: true
@@ -26,7 +26,7 @@ const PropertySchema = new Schema({
 	default: Date.now
   },
   modifyTime: {
-    type: Date,
+	type: Date,
 	default: null
   }
 })

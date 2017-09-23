@@ -11,7 +11,7 @@ router.use(jwt({
 }))
 
 router.get('/egg', BaseConfig.getEggGroups)
-router.get('/version',  BaseConfig.getVersions)
+router.get('/version', BaseConfig.getVersions)
 router.get('/property', BaseConfig.getProperties)
 router.get('/feature', BaseConfig.getFeatures)
 

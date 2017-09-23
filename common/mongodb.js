@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import autoIncrement from 'mongoose-auto-increment'
-import { mongodb } from "../config"
+import {mongodb} from "../config"
 import ora from 'ora'
 import blueBird from 'bluebird'
 

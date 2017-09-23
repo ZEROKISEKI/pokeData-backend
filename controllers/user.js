@@ -1,16 +1,16 @@
 import * as model from '../models'
-import { PokeData } from '../common/model'
+import {PokeData} from '../common/model'
 import cryto from 'crypto'
-import { sign } from "../common/jwt"
-import { dateToTime } from '../utils/moment'
+import {sign} from "../common/jwt"
+import {dateToTime} from '../utils/moment'
 
 class User {
 
   // 账号注册
   static async register(ctx, next) {
 
-    if (ctx.state.user && ctx.state.user.userId) {
-      throw new Error('请先退出登录!')
+	if (ctx.state.user && ctx.state.user.userId) {
+	  throw new Error('请先退出登录!')
 	}
 
 	ctx.msgType = PokeData.PBMessageType.USER_REGISTER
@@ -47,8 +47,8 @@ class User {
   // 账号登录
   static async login(ctx, next) {
 
-    if (ctx.state.user&& ctx.state.user.userId) {
-      throw new Error('账号已经登录! 请先退出已有登录账号!')
+	if (ctx.state.user && ctx.state.user.userId) {
+	  throw new Error('账号已经登录! 请先退出已有登录账号!')
 	}
 
 	ctx.msgType = PokeData.PBMessageType.USER_LOGIN
@@ -116,7 +116,7 @@ class User {
 
 	ctx.msgType = PokeData.PBMessageType.GET_ALL_USERS
 
-    await next()
+	await next()
 
 	const req = ctx.pb.req
 	const requestBody = PokeData.PBListReq.toObject(PokeData.PBListReq.decode(req.requestBody))
@@ -168,13 +168,13 @@ class User {
 	await next()
 
 	const req = ctx.pb.req
-	const { id } = ctx.params
+	const {id} = ctx.params
 
-	if(!id || Object.is(NaN, +id) || parseInt(id) !== +id) {
+	if (!id || Object.is(NaN, +id) || parseInt(id) !== +id) {
 	  throw new Error('id不能为空或非整数!')
 	}
 
-	const user = await model.User.findOne({ 'userId': id }).exec()
+	const user = await model.User.findOne({'userId': id}).exec()
 
 	if (!user) {
 	  throw new Error('用户不存在!')
@@ -215,7 +215,7 @@ class User {
 
 	const req = ctx.pb.req
 	const requestBody = PokeData.PBUser.toObject(PokeData.PBUser.decode(req.requestBody))
-	const oldUser = await model.User.findOne({ userId: requestBody.userId }).exec()
+	const oldUser = await model.User.findOne({userId: requestBody.userId}).exec()
 
 	if (!oldUser) {
 	  throw new Error('用户不存在!')
@@ -238,7 +238,7 @@ class User {
 
 	const modifyUser = model.User.update({
 	  userId: requestBody.userId
-	}, { $set: data })
+	}, {$set: data})
 
 	const user = await modifyUser.exec()
 
@@ -323,13 +323,13 @@ class User {
 	  throw new Error('只有超级管理员才有权操作!')
 	}
 
-    ctx.msgType = PokeData.PBMessageType.REMOVE_USER
+	ctx.msgType = PokeData.PBMessageType.REMOVE_USER
 
 	await next()
 
 	const req = ctx.pb.req
-	const { id } = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
-	const result = await model.User.remove({ 'userId': id }).exec()
+	const {id} = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+	const result = await model.User.remove({'userId': id}).exec()
 
 	if (!result.result.n) {
 	  throw new Error('目标用户不存在!')
@@ -346,11 +346,11 @@ class User {
   // 获取个人信息
   static async getMessage(ctx, next) {
 
-    ctx.msgType = PokeData.PBMessageType.GET_USER_BY_ID
+	ctx.msgType = PokeData.PBMessageType.GET_USER_BY_ID
 
 	await next()
 
-	const user = await model.User.findOne({ 'userId': ctx.state.user.userId }).exec()
+	const user = await model.User.findOne({'userId': ctx.state.user.userId}).exec()
 
 	if (!user) {
 	  throw new Error('用户不存在!')
@@ -379,9 +379,9 @@ class User {
   // 修改个人信息
   static async updateMessage(ctx, next) {
 
-    ctx.msgType = PokeData.PBMessageType.UPDATE_USER_BY_ID
+	ctx.msgType = PokeData.PBMessageType.UPDATE_USER_BY_ID
 
-    await next()
+	await next()
 
 	const req = ctx.pb.req
 	const requestBody = PokeData.PBUser.toObject(PokeData.PBUser.decode(req.requestBody))
@@ -417,7 +417,7 @@ class User {
 
 	const modifyUser = model.User.update({
 	  userId: requestBody.userId
-	}, { $set: data })
+	}, {$set: data})
 
 	const user = await modifyUser.exec()
 
@@ -460,11 +460,11 @@ class User {
 
   // 加密函数
   static encrypt(password, key) {
-    const salt = cryto.createHash('sha256')
-    salt.update(`${key}`)
-    const result = cryto.createHmac('sha256', salt.digest('hex'))
-    result.update(password)
-    return result.digest('hex')
+	const salt = cryto.createHash('sha256')
+	salt.update(`${key}`)
+	const result = cryto.createHmac('sha256', salt.digest('hex'))
+	result.update(password)
+	return result.digest('hex')
   }
 
 }

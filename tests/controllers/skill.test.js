@@ -1,7 +1,7 @@
-import { expect } from 'chai'
+import {expect} from 'chai'
 import request from 'supertest'
 import server from '../../bin/www'
-import { PokeData } from '../../common/model'
+import {PokeData} from '../../common/model'
 import protobuf from 'protobufjs/minimal'
 
 describe('Skill', () => {
@@ -20,30 +20,30 @@ describe('Skill', () => {
 	  power: 80,
 	  hit: 100,
 	  pp: {
-	    base: 10,
+		base: 10,
 		max: 16
 	  },
 	  features: [
-	    '是接触类招式',
-	    '受守住影响',
-	    '不受魔法反射影响',
-	    '不可以被抢夺',
-	    '受鹦鹉学舌影响',
+		'是接触类招式',
+		'受守住影响',
+		'不受魔法反射影响',
+		'不可以被抢夺',
+		'受鹦鹉学舌影响',
 		'受王者之证等类似道具影响',
 		'可以在对战外使用'
 	  ],
 	  effect: [
-	    '使用挖洞的宝可梦在第一回合潜入地下进行蓄力，第二回合发动攻击。',
-	    '蓄气的回合会进行行动判定，成功发出招式则消耗ＰＰ。进行蓄力时不能下达指令。',
-	    '攻击的回合会进行行动判定，出现不能行动的情况则攻击取消，攻击动作不消耗ＰＰ。',
-	    '携带强力香草，可以在蓄力结束后立刻发动攻击，不多消耗一回合。',
-	    '对使用挖洞的宝可梦（无论当回合是在进行蓄力或进行攻击）使用突袭都能成功，但是否命中需要另外计算。',
+		'使用挖洞的宝可梦在第一回合潜入地下进行蓄力，第二回合发动攻击。',
+		'蓄气的回合会进行行动判定，成功发出招式则消耗ＰＰ。进行蓄力时不能下达指令。',
+		'攻击的回合会进行行动判定，出现不能行动的情况则攻击取消，攻击动作不消耗ＰＰ。',
+		'携带强力香草，可以在蓄力结束后立刻发动攻击，不多消耗一回合。',
+		'对使用挖洞的宝可梦（无论当回合是在进行蓄力或进行攻击）使用突袭都能成功，但是否命中需要另外计算。',
 		'该招式无法被梦话发动。',
 		'在洞穴之类的地点使用，可使主角立即回到洞穴的入口。'
 	  ],
 	  range: PokeData.PBSkillRange.TO_ONE,
 	  zSkill: {
-	    crystal: '地面Ｚ',
+		crystal: '地面Ｚ',
 		name: '地隆啸天大终结',
 		power: '160'
 	  },
@@ -66,16 +66,16 @@ describe('Skill', () => {
 			  level: 30
 			}]
 		  }, {
-		    number: 6,
+			number: 6,
 			value: [{
-		      version: [{
+			  version: [{
 				name: '精灵宝可梦 X‧Y',
 				abstr: 'X'
 			  }, {
 				name: '精灵宝可梦 X‧Y',
 				abstr: 'Y'
 			  }, {
-		        name: '精灵宝可梦 终极红宝石‧始源蓝宝石',
+				name: '精灵宝可梦 终极红宝石‧始源蓝宝石',
 				abstr: '终极红宝石'
 			  }, {
 				name: '精灵宝可梦 终极红宝石‧始源蓝宝石',
@@ -84,10 +84,10 @@ describe('Skill', () => {
 			  level: 30
 			}]
 		  }, {
-		    number: 7,
+			number: 7,
 			value: [{
-		      version: [{
-		        name: '精灵宝可梦 太阳 / 月亮',
+			  version: [{
+				name: '精灵宝可梦 太阳 / 月亮',
 				abstr: '太阳'
 			  }, {
 				name: '精灵宝可梦 太阳 / 月亮',
@@ -103,13 +103,13 @@ describe('Skill', () => {
 		  icon: 'https://s0.52poke.wiki/assets/sprite/sm/icon_161118.png',
 		  properties: ['水'],
 		  generations: [{
-		    number: 2,
+			number: 2,
 			parents: [{
-		      name: '化石盔',
+			  name: '化石盔',
 			  icon: 'https://s0.52poke.wiki/assets/sprite/sm/icon_161118.png'
 			}]
 		  }, {
-		    number: 3,
+			number: 3,
 			parents: [{
 			  name: '化石盔',
 			  icon: 'https://s0.52poke.wiki/assets/sprite/sm/icon_161118.png'
@@ -128,7 +128,7 @@ describe('Skill', () => {
 		  icon: 'https://s0.52poke.wiki/assets/sprite/sm/icon_161118.png',
 		  properties: ['火'],
 		  generations: [{
-		    number: 1,
+			number: 1,
 			items: [28]
 		  }, {
 			number: 2,
@@ -153,11 +153,11 @@ describe('Skill', () => {
 		  icon: 'https://s0.52poke.wiki/assets/sprite/sm/icon_161118.png',
 		  properties: ['火'],
 		  generations: [{
-		    number: 4,
+			number: 4,
 		  }, {
-		    number: 5
+			number: 5
 		  }, {
-		    number: 6
+			number: 6
 		  }]
 		}],
 		others: [{
@@ -202,7 +202,7 @@ describe('Skill', () => {
 	  .send(req)
 	  .expect(200)
 	  .end((err, res) => {
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -232,7 +232,7 @@ describe('Skill', () => {
 	  .send(req)
 	  .expect(200)
 	  .end((err, res) => {
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -259,7 +259,7 @@ describe('Skill', () => {
 	  .query(base64Req)
 	  .expect(200)
 	  .end((err, res) => {
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -292,7 +292,7 @@ describe('Skill', () => {
 	  .query(base64Req)
 	  .expect(200)
 	  .end((err, res) => {
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
@@ -502,7 +502,7 @@ describe('Skill', () => {
 	  .send(req)
 	  .expect(200)
 	  .end((err, res) => {
-		if(err) {
+		if (err) {
 		  done(err)
 		  return
 		}
