@@ -9,13 +9,13 @@ import Person from './person'
 import Feature from './feature'
 
 export {
-  Pokemon,
-  Item,
-  Skill,
-  User,
-  EggGroup,
-  Version,
-  Property,
-  Person,
-  Feature
+	Pokemon,
+	Item,
+	Skill,
+	User,
+	EggGroup,
+	Version,
+	Property,
+	Person,
+	Feature
 }

@@ -5,7 +5,7 @@ import server from 'koa-static'
 import convert from 'koa-convert'
 import mount from 'koa-mount'
 
-import db from './common/mongodb'
+import './common/mongodb'
 
 import errorHandler from './middlewares/errorHandler'
 import pbHandler from './middlewares/pbHandler'
@@ -21,11 +21,11 @@ import person from './routers/person'
 const app = new Koa()
 
 app.use(convert(bodyParser({
-  buffer: true,
-  // fields: 'body',
-  extendTypes: {
-    buffer: ['application/octet-stream']
-  }
+	buffer: true,
+	// fields: 'body',
+	extendTypes: {
+		buffer: ['application/octet-stream']
+	}
 })))
 
 app.use(mount('/static', server(`${__dirname}/public`)))

@@ -10,11 +10,11 @@ const spinner = ora('building proto model...\n').start()
 // const testServer = http.createServer(app.callback())
 
 pbjs.main(...proto, (err, output) => {
-  if (err) spinner.fail('building proto failed! check your *.proto file!\n')
-  else {
-    spinner.succeed('build proto model success!\n')
-    server.listen(3006)
-  }
+	if (err) spinner.fail('building proto failed! check your *.proto file!\n')
+	else {
+		spinner.succeed('build proto model success!\n')
+		server.listen(3006)
+	}
 })
 
 // testServer.listen(3007)
