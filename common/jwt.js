@@ -18,7 +18,7 @@ export function decode(token, opts = {}) {
     return decoded
 
   } catch (err) {
-	throw new Error('用户认证已经失效！请重新登录认证!')
+	throw new Error('无效的用户认证！请重新登录认证!')
   }
 
 }
