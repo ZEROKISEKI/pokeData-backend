@@ -3,11 +3,11 @@ import Pokemon from '../controllers/pokemon'
 import jwt from '../middlewares/jwt'
 
 const router = new Router({
-  prefix: '/pokemon'
+	prefix: '/pokemon'
 })
 
 router.use(jwt({
-  path: ['/pokemon/all', '/pokemon/search', /pokemon\/([0-9]+)/]
+	path: ['/pokemon/all', '/pokemon/search', /pokemon\/([0-9]+)/]
 }))
 
 router.get('/all', Pokemon.getPokemons)

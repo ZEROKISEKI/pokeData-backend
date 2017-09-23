@@ -5,13 +5,13 @@ import {mongodb} from "../config"
 
 class Test {
 
-  static async connectDB() {
-	return mongoose.connect(`mongodb://${mongodb.host}:${mongodb.port}/${mongodb.database}`)
-  }
+	static async connectDB() {
+		return mongoose.connect(`mongodb://${mongodb.host}:${mongodb.port}/${mongodb.database}`)
+	}
 
-  static async closeDB() {
-	mongoose.connection.close()
-  }
+	static async closeDB() {
+		mongoose.connection.close()
+	}
 
 }
 

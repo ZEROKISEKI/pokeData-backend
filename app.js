@@ -21,11 +21,11 @@ import person from './routers/person'
 const app = new Koa()
 
 app.use(convert(bodyParser({
-  buffer: true,
-  // fields: 'body',
-  extendTypes: {
-	buffer: ['application/octet-stream']
-  }
+	buffer: true,
+	// fields: 'body',
+	extendTypes: {
+		buffer: ['application/octet-stream']
+	}
 })))
 
 app.use(mount('/static', server(`${__dirname}/public`)))

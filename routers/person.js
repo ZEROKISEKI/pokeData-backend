@@ -3,11 +3,11 @@ import jwt from '../middlewares/jwt'
 import Person from '../controllers/person'
 
 const router = new Router({
-  prefix: '/person'
+	prefix: '/person'
 })
 
 router.use(jwt({
-  path: ['/person/all', '/person/search', /person\/([0-9]+)/]
+	path: ['/person/all', '/person/search', /person\/([0-9]+)/]
 }))
 
 router.get('/all', Person.getAllPersons)
