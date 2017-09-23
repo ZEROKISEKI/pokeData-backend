@@ -25,8 +25,8 @@ export default async function (ctx, next) {
 	} else {
 	  // 抛出数据库检测错误
 	  let result = ''
-	  for (const error of err.errors) {
-		result += `${error.message}\n`
+	  for (const error of Object.getOwnPropertyNames(err.errors)) {
+		result += `${err.errors[error].message}\n`
 	  }
 	  ctx.throw(500, result)
 	}
