@@ -40,8 +40,8 @@ message PBPokemonList {
 }
 
 message PBPokemonSex {
-  optional int32 male = 1;                              // 雄性比例
-  optional int32 female = 2;                            // 雌性比例
+  optional double male = 1;                             // 雄性比例
+  optional double female = 2;                           // 雌性比例
 }
 
 message PBPokemonCapture {
