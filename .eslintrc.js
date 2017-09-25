@@ -9,18 +9,12 @@ module.exports = {
     "ecmaVersion": 2017,
     "sourceType": "module",
   },
+	"plugins": [
+		'html'
+	],
   "rules": {
-    "indent": [
-      "error",
-      "tab"
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ]
+    "indent": ["error", 2],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"]
   }
 };
