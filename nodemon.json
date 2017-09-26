@@ -3,6 +3,8 @@
   "ignore": [
     ".git",
     ".gitignore",
-    "common/model.js"
+    "common/model.js",
+    "assets.json",
+    "client/*.*"
   ]
 }
