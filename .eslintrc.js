@@ -1,4 +1,5 @@
 module.exports = {
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "commonjs": true,
@@ -8,6 +9,7 @@ module.exports = {
   "parserOptions": {
     "ecmaVersion": 2017,
     "sourceType": "module",
+    "allowImportExportEverywhere": true
   },
 	"plugins": [
 		'html'
