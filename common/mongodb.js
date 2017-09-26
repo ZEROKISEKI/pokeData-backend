@@ -14,9 +14,9 @@ const db = mongoose.connect(`mongodb://${mongodb.host}:${mongodb.port}/${mongodb
 autoIncrement.initialize(db)
 
 db.then(() => {
-	spinner.succeed('数据库连接成功\n')
+  spinner.succeed('数据库连接成功\n')
 }).catch(err => {
-	spinner.fail(`数据库连接出错，错误原因: ${err.message}\n`)
+  spinner.fail(`数据库连接出错，错误原因: ${err.message}\n`)
 })
 
 // db.on('open', () => spinner.succeed(`数据库连接成功\n`))

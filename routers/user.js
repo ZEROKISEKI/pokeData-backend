@@ -3,12 +3,12 @@ import User from '../controllers/user'
 import jwt from '../middlewares/jwt'
 
 const router = new Router({
-	'prefix': '/user'
+  'prefix': '/user'
 })
 
 // 配置不需要进行jwt验证的路由
 router.use(jwt({
-	path: ['/user/register', '/user/login']
+  path: ['/user/register', '/user/login']
 }))
 
 router.get('/setting', User.getMessage)
