@@ -2,12 +2,10 @@
 
 import Router from 'koa-router'
 
-const router = new Router({
-  prefix: '/page'
-})
+const router = new Router()
 
 // 采用ejs模板引擎, 读取assets.json的静态资源(utils.assetWebpack)
-router.get('/all', async ctx => {
+router.get('/', async ctx => {
   ctx.type = 'text/html'
   ctx.body = await ctx.render('page.html')
 })
