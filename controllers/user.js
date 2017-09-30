@@ -73,21 +73,24 @@ class User {
 
       await user.save()
 
-      // 登录成功, 生成JWT用户认证
-      const token = sign({
+      const payLoad = {
         userId: user.userId,
         username: user.name,
         avatar: user.avatar,
-        lastLoginTime: user.lastLoginTime,
+        lastLoginTime: dateToTime(user.lastLoginTime),
+        lastModifyTime: dateToTime(user.updateTime),
         role: user.role
-      })
+      }
+
+      // 登录成功, 生成JWT用户认证
+      const token = sign(payLoad)
 
       const messageData = PokeData.PBUser.encode(new PokeData.PBUser({
         userId: user.userId,
         username: user.name,
         avatar: user.avatar,
-        lastLoginTime: user.lastLoginTime,
-        lastModifyTime: user.updateTime,
+        lastLoginTime: dateToTime(user.lastLoginTime),
+        lastModifyTime: dateToTime(user.updateTime),
         role: user.role
       })).finish()
 
@@ -98,6 +101,7 @@ class User {
 
       // 设置响应头token
       ctx.set('authorization', `Bearer ${token}`)
+      ctx.set('payload', JSON.stringify(payLoad))
       ctx.response.body = res
 
     } else {
