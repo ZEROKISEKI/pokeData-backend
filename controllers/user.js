@@ -26,12 +26,14 @@ class User {
       createTime: requestBody.createTime
     })
 
-    if (requestBody.inviteCode) {
+    if (requestBody.inviteCode && requestBody.inviteCode === '123456') {
       // 有邀请码则设置为普通管理员
       user.set({
         inviteCode: requestBody.inviteCode,
         role: PokeData.PBUserRole.NORMAL_ADMIN
       })
+    } else if (requestBody.inviteCode) {
+      throw new Error('大佬, 没有正确的邀请码就不要填啦...')
     }
 
     await user.validate()
@@ -101,13 +103,10 @@ class User {
 
       // 设置响应头token
       ctx.set('authorization', `Bearer ${token}`)
-      ctx.set('payload', JSON.stringify(payLoad))
       ctx.response.body = res
-
     } else {
       throw new Error('用户名不存在或密码错误!')
     }
-
   }
 
   // 获取账号列表(只有超级管理员才有该权限)
