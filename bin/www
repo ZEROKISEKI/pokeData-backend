@@ -2,20 +2,31 @@ import http from 'http'
 import pbjs from 'protobufjs/cli/pbjs'
 import ora from 'ora'
 import {proto} from '../config'
+import rm from 'rimraf'
 // import cluster from 'cluster'
 
 import app from '../app'
+import path from 'path'
 
 const server = http.createServer(app.callback())
-const spinner = ora('building proto model...\n').start()
+const spinner1 = ora('remove proto model...\n').start()
 
-pbjs.main(...proto, (err, output) => {
-  if (err) spinner.fail('building proto failed! check your *.proto file!\n')
-  else {
-    spinner.succeed('build proto model success!\n')
-    server.listen(3006)
+rm(path.join(__dirname, 'common/model.js'), err => {
+  if (err) {
+    spinner1.fail('remove proto failed!\n')
+  } else {
+    spinner1.succeed('remove proto success!\n')
+    const spinner = ora('building proto model...\n').start()
+    pbjs.main(...proto, (err, output) => {
+      if (err) spinner.fail('building proto failed! check your *.proto file!\n')
+      else {
+        spinner.succeed('build proto model success!\n')
+        server.listen(3006)
+      }
+    })
   }
 })
+
 
 export default server
 
