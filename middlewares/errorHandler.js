@@ -21,7 +21,7 @@ export default async function (ctx, next) {
     }
 
     if (!err.errors) {
-      ctx.throw(500, err.message)
+      ctx.throw(404, err.message)
     } else {
       // 抛出数据库检测错误
       let result = ''
