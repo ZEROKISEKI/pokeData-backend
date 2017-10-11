@@ -5,6 +5,6 @@
     ".gitignore",
     "common/model.js",
     "assets.json",
-    "client/*.*"
+    "client/**/*.*"
   ]
 }
