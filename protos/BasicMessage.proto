@@ -1,3 +1,4 @@
+syntax = "proto2";
 package PokeData;
 
 enum PBMessageType {
@@ -56,14 +57,17 @@ enum PBMessageType {
   // ------------------  BASECONFIG --------------------
 
   GET_VERSIONS = 600001;                  // 获取全部游戏版本 void -> PBVersionList
+  GET_VERSION_BY_ID = 600018;             // 根据ID获取游戏版本 PBIdObject -> PBVersion
   ADD_VERSION = 600002;                   // 添加游戏版本 PBVersion -> void
   UPDATE_VERSION = 600003;                // 修改游戏版本 PBVersion -> PBVersion
   REMOVE_VERSION = 600004;                // 删除游戏版本 PBIdObject -> void
   GET_EGGGROUPS = 600005;                 // 获取全部蛋群 void -> PBEggGroupList
+  GET_EGGGROUP_BY_ID = 600019;            // 根据ID获取蛋群 PBIdObject -> PBEggGroup
   ADD_EGGGROUP = 600006;                  // 添加蛋群 PBEggGroup -> void
   UPDATE_EGGGROUP = 600007;               // 修改蛋群 PBEggGroup -> PBEggGroup
   REMOVE_EGGGROUP = 600008;               // 删除蛋群 PBIdObject -> void
   GET_PROPERTIES = 600009;                // 获取全部属性 void -> PBPropertyList
+  GET_PROPERTY_BY_ID = 600020;            // 根据ID获取属性 PBIdObject -> PBProperty
   ADD_PROPERTY = 600010;                  // 添加属性 PBProperty -> void
   UPDATE_PROPERTY = 600011;               // 修改属性 PBProperty -> PBProperty
   REMOVE_PROPERTY = 600012;               // 删除属性 PBIdObject -> void
