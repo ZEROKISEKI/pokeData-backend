@@ -83,5 +83,7 @@ export const vueLoaderConfig = {
     source: 'src',
     img: 'src',
     image: 'xlink:href'
-  }
+  },
+  // 添加postcss插件操作(autoprefixer, cssnext)
+  postcss: [require('autoprefixer')]
 }

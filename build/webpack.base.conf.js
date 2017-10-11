@@ -15,6 +15,8 @@ export default {
     extensions: ['*', '.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
+      '@': path.join(__dirname, '../client'),
+      'proto': path.join(__dirname, '../common/model.js')
     }
   },
   module: {
