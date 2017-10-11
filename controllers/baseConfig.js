@@ -47,6 +47,38 @@ class BaseConfig {
     ctx.response.body = res
   }
 
+  static async getVersionById(ctx, next) {
+    ctx.msgType = PokeData.PBMessageType.GET_VERSION_BY_ID
+    await next()
+    const req = ctx.pb.req
+    const {id} = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+    const version = await model.Version
+      .findOne({versionId: id})
+      .select({
+        '_id': 0,
+        '__v': 0
+      })
+      .exec()
+    if (!version) {
+      throw new Error('目标不存在!')
+    }
+    const data = JSON.parse(JSON.stringify(version))
+    data.background = data.color.background
+    data.font = data.color.font
+    delete data.color
+    const messageData = PokeData.PBVersion
+      .encode(new PokeData.PBVersion(Object.assign({}, data, {
+        createTime: dateToTime(version.createTime),
+        modifyTime: version.modifyTime ? dateToTime(version.modifyTime) : null
+      }))).finish()
+    const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+      messageData,
+      responseTime: Date.now()
+    })).finish()
+
+    ctx.response.body = res
+  }
+
   static async addVersion(ctx, next) {
 
     if (ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
@@ -145,8 +177,13 @@ class BaseConfig {
       throw new Error('修改失败! 请重新尝试!')
     }
 
+    const oldData = JSON.parse(JSON.stringify(oldVersion))
+    if (oldData.color) {
+      delete oldData.color
+    }
+
     const messageData = PokeData.PBVersion
-      .encode(new PokeData.PBVersion(Object.assign({}, JSON.parse(JSON.stringify(oldVersion)), requestBody))).finish()
+      .encode(new PokeData.PBVersion(Object.assign({}, oldData, requestBody))).finish()
     const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
       messageData,
       responseTime: Date.now()
@@ -178,6 +215,34 @@ class BaseConfig {
     const messageData = PokeData.PBEggGroupList.encode(new PokeData.PBEggGroupList({
       eggGroups: data
     })).finish()
+    const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+      messageData,
+      responseTime: Date.now()
+    })).finish()
+
+    ctx.response.body = res
+  }
+
+  static async getEggGroupById(ctx, next) {
+    ctx.msgType = PokeData.PBMessageType.GET_EGGGROUP_BY_ID
+    await next()
+    const req = ctx.pb.req
+    const {id} = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+    const eggGroup = await model.EggGroup
+      .findOne({eggGroupId: id})
+      .select({
+        '_id': 0,
+        '__v': 0
+      })
+      .exec()
+    if (!eggGroup) {
+      throw new Error('目标不存在!')
+    }
+    const messageData = PokeData.PBEggGroup
+      .encode(new PokeData.PBEggGroup(Object.assign({}, JSON.parse(JSON.stringify(eggGroup)), {
+        createTime: dateToTime(eggGroup.createTime),
+        modifyTime: eggGroup.modifyTime ? dateToTime(eggGroup.modifyTime) : null
+      }))).finish()
     const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
       messageData,
       responseTime: Date.now()
@@ -316,6 +381,34 @@ class BaseConfig {
     const messageData = PokeData.PBPropertyList.encode(new PokeData.PBPropertyList({
       properties: data
     })).finish()
+    const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+      messageData,
+      responseTime: Date.now()
+    })).finish()
+
+    ctx.response.body = res
+  }
+
+  static async getPropertyById(ctx, next) {
+    ctx.msgType = PokeData.PBMessageType.GET_PROPERTY_BY_ID
+    await next()
+    const req = ctx.pb.req
+    const {id} = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+    const property = await model.Property
+      .findOne({propertyId: id})
+      .select({
+        '_id': 0,
+        '__v': 0
+      })
+      .exec()
+    if (!property) {
+      throw new Error('目标不存在!')
+    }
+    const messageData = PokeData.PBProperty
+      .encode(new PokeData.PBProperty(Object.assign({}, JSON.parse(JSON.stringify(property)), {
+        createTime: dateToTime(property.createTime),
+        modifyTime: property.modifyTime ? dateToTime(property.modifyTime) : null
+      }))).finish()
     const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
       messageData,
       responseTime: Date.now()
