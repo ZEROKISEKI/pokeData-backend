@@ -20,8 +20,10 @@
             <ColorPicker v-model="version.font"></ColorPicker>
             <i-input v-model="version.font" class="block-input"></i-input>
           </FormItem>
-          <Button type="primary" long  @click="updateVersion" v-if="checkRoute">提交</Button>
-          <Button type="primary" long @click="addVersion" v-else>添加</Button>
+          <FormItem>
+            <Button type="primary" long @click="updateVersion" v-if="checkRoute">提交</Button>
+            <Button type="primary" long @click="addVersion" v-else>添加</Button>
+          </FormItem>
         </i-col>
       </Row>
     </Form>
@@ -78,7 +80,7 @@ export default {
             })
             self.$Message.success('修改游戏版本信息成功～')
             self.version = version
-            self.$router.replace({
+            self.$router.push({
               name: 'version-list'
             })
           } catch(err) {
@@ -96,7 +98,7 @@ export default {
           try {
             await self.AddVersion(self.version)
             self.$Message.success('添加游戏版本成功～')
-            self.$router.replace({
+            self.$router.push({
               name: 'version-list'
             })
           } catch(err) {
