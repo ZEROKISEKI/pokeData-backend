@@ -238,8 +238,12 @@ class BaseConfig {
     if (!eggGroup) {
       throw new Error('目标不存在!')
     }
+    const data = JSON.parse(JSON.stringify(eggGroup))
+    data.background = data.color.background
+    data.border = data.color.border
+    delete data.color
     const messageData = PokeData.PBEggGroup
-      .encode(new PokeData.PBEggGroup(Object.assign({}, JSON.parse(JSON.stringify(eggGroup)), {
+      .encode(new PokeData.PBEggGroup(Object.assign({}, data, {
         createTime: dateToTime(eggGroup.createTime),
         modifyTime: eggGroup.modifyTime ? dateToTime(eggGroup.modifyTime) : null
       }))).finish()
@@ -348,8 +352,12 @@ class BaseConfig {
       throw new Error('修改失败! 请重新尝试!')
     }
 
+    const oldData = JSON.parse(JSON.stringify(oldEggGroup))
+    if (oldData.color) {
+      delete oldData.color
+    }
     const messageData = PokeData.PBEggGroup
-      .encode(new PokeData.PBEggGroup(Object.assign({}, JSON.parse(JSON.stringify(oldEggGroup)), requestBody))).finish()
+      .encode(new PokeData.PBEggGroup(Object.assign({}, oldData, requestBody))).finish()
     const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
       messageData,
       responseTime: Date.now()
@@ -404,8 +412,12 @@ class BaseConfig {
     if (!property) {
       throw new Error('目标不存在!')
     }
+    const data = JSON.parse(JSON.stringify(property))
+    data.background = data.color.background
+    data.border = data.color.border
+    delete data.color
     const messageData = PokeData.PBProperty
-      .encode(new PokeData.PBProperty(Object.assign({}, JSON.parse(JSON.stringify(property)), {
+      .encode(new PokeData.PBProperty(Object.assign({}, data, {
         createTime: dateToTime(property.createTime),
         modifyTime: property.modifyTime ? dateToTime(property.modifyTime) : null
       }))).finish()
@@ -514,8 +526,12 @@ class BaseConfig {
       throw new Error('修改失败! 请重新尝试!')
     }
 
+    const oldData = JSON.parse(JSON.stringify(oldProperty))
+    if (oldData.color) {
+      delete oldData.color
+    }
     const messageData = PokeData.PBProperty
-      .encode(new PokeData.PBProperty(Object.assign({}, JSON.parse(JSON.stringify(oldProperty)), requestBody))).finish()
+      .encode(new PokeData.PBProperty(Object.assign({}, oldData, requestBody))).finish()
     const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
       messageData,
       responseTime: Date.now()
