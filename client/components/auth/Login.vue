@@ -28,8 +28,9 @@ export default {
           password: this.password
         })
         this.$Message.success('登录成功~')
+        const { redirect } = this.$route.query
         this.$router.push({
-          name: 'manage',
+          path: redirect ? redirect : '/manage',
         })
       } catch (err) {
         this.$Message.error(err.message)
