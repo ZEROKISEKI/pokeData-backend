@@ -16,11 +16,13 @@
     </div>
     <Upload
       ref="data" accept="image/*"
+      :max-size="maxSize"
       :headers="headers"
       :multiple="multiple"
       :show-upload-list="false"
       action="/upload/image"
       :default-file-list="defaultList"
+      :before-upload="handleBeforeUpload"
       :on-error="handleError"
       :on-success="handleSuccess">
       <template v-if="multiple">
@@ -39,10 +41,15 @@
         </div>
       </template>
     </Upload>
+    <Spin size="large" fix v-if="!uploadComplete">
+      <Icon type="load-c" size='18' class="demo-spin-icon-load"></Icon>
+      <div>上传图片中</div>
+    </Spin>
   </div>
 </template>
 <script>
 import { qiniuHost, qiniuImageOptions } from '@/utils/qiniu'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'PokeUpload',
   props: {
@@ -69,6 +76,10 @@ export default {
     imageOption: {
       type: String,
       default: qiniuImageOptions.imageBase
+    },
+    maxSize: {
+      type: Number,
+      default: 2048
     }
   },
   data() {
@@ -84,6 +95,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      uploadComplete: ({ common }) => common.uploadComplete
+    }),
     defaultList() {
       if (!this.multiple) {
         return []
@@ -98,6 +112,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['uploading']),
+    handleBeforeUpload() {
+      if(this.uploadComplete) {
+        this.uploading(false)
+      }
+      return true
+    },
     handleError(error, file, fileList) {
       if(error && error.status === 401) {
         this.$Message.error('不正确或没有身份授权, 请先进行登录')
@@ -108,6 +129,8 @@ export default {
     handleSuccess(response, file, fileList) {
       if(!this.multiple) {
         this.$emit('update:image', response[0].key)
+        this.uploading(true)
+        this.$Message.success('图片上传成功~')
       } else {
         // TODO 修改获取上传图片的方式
         const list = fileList.filter(e => !e.hasOwnProperty('url'))
@@ -117,6 +140,8 @@ export default {
             this.files.push(res[0].key)
           }
           this.$emit('update:images', this.files)
+          this.$Message.success('图片上传成功~')
+          this.uploading(true)
         }
       }
     },
@@ -179,6 +204,17 @@ div.poke-upload {
     .upload:hover .upload-cover {
       opacity: 1;
     }
+  }
+  .ivu-spin-fix {
+    background-color: transparent;
+  }
+  .demo-spin-icon-load{
+    animation: ani-demo-spin 1s linear infinite;
+  }
+  @keyframes ani-demo-spin {
+    from { transform: rotate(0deg);}
+    50%  { transform: rotate(180deg);}
+    to   { transform: rotate(360deg);}
   }
 }
 div.poke-upload.multiple-upload {
