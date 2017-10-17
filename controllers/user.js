@@ -137,9 +137,9 @@ class User {
         role: user.role,
         isLocked: user.locked,
         inviteCode: user.inviteCode,
-        createTime: user.createTime,
-        lastLoginTime: user.lastLoginTime,
-        lastModifyTime: user.updateTime
+        createTime: dateToTime(user.createTime),
+        lastLoginTime: dateToTime(user.lastLoginTime),
+        lastModifyTime: dateToTime(user.updateTime)
       })
     })
 
@@ -190,9 +190,9 @@ class User {
       role: user.role,
       isLocked: user.locked,
       inviteCode: user.inviteCode,
-      createTime: user.createTime,
-      lastLoginTime: user.lastLoginTime,
-      lastModifyTime: user.updateTime
+      createTime: dateToTime(user.createTime),
+      lastLoginTime: dateToTime(user.lastLoginTime),
+      lastModifyTime: dateToTime(user.updateTime)
     })).finish()
 
     const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
@@ -256,9 +256,9 @@ class User {
       avatar = oldUser.avatar,
       role = oldUser.role,
       inviteCode = oldUser.inviteCode,
-      createTime = oldUser.createTime,
-      lastLoginTime = oldUser.lastLoginTime,
-      lastModifyTime = data.updateTime,
+      createTime = dateToTime(oldUser.createTime),
+      lastLoginTime = dateToTime(oldUser.lastLoginTime),
+      lastModifyTime = dateToTime(data.updateTime),
     } = data
 
     const messageData = PokeData.PBUser.encode(new PokeData.PBUser({
@@ -366,9 +366,9 @@ class User {
       role: user.role,
       isLocked: user.locked,
       inviteCode: user.inviteCode,
-      createTime: user.createTime,
-      lastLoginTime: user.lastLoginTime,
-      lastModifyTime: user.updateTime
+      createTime: dateToTime(user.createTime),
+      lastLoginTime: dateToTime(user.lastLoginTime),
+      lastModifyTime: dateToTime(user.updateTime)
     })).finish()
 
     const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
@@ -435,9 +435,9 @@ class User {
       avatar = oldUser.avatar,
       role = oldUser.role,
       inviteCode = oldUser.inviteCode,
-      createTime = oldUser.createTime,
-      lastLoginTime = oldUser.lastLoginTime,
-      lastModifyTime = data.updateTime,
+      createTime = dateToTime(oldUser.createTime),
+      lastLoginTime = dateToTime(oldUser.lastLoginTime),
+      lastModifyTime = dateToTime(data.updateTime),
     } = data
 
     const messageData = PokeData.PBUser.encode(new PokeData.PBUser({
