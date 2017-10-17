@@ -4,6 +4,7 @@ import bodyParser from 'koa-better-body'
 import server from 'koa-static'
 import convert from 'koa-convert'
 import mount from 'koa-mount'
+import favicon from 'koa-favicon'
 import path from 'path'
 
 import './common/mongodb'
@@ -18,6 +19,7 @@ import skill from './routers/skill'
 import user from './routers/user'
 import baseConfig from './routers/baseConfig'
 import person from './routers/person'
+import upload from './routers/upload'
 
 import page from './routers/page'
 
@@ -64,9 +66,12 @@ if (app.env === 'development') {
   app.use(mount('/public', server(path.join(__dirname, 'public'))))
 }
 
+// 增加favicon.ico中间件
+app.use(favicon(path.join(__dirname, 'public/favicon.ico')))
+
 app.use(convert(bodyParser({
   buffer: true,
-  // fields: 'body',
+  fields: 'body',
   extendTypes: {
     buffer: ['application/octet-stream']
   }
@@ -79,6 +84,9 @@ app.use(errorHandler)
 
 app.use(page.routes())
 app.use(page.allowedMethods())
+
+app.use(upload.routes())
+app.use(upload.allowedMethods())
 
 // PB请求处理中间件
 app.use(pbHandler)
