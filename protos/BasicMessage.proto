@@ -3,6 +3,10 @@ package PokeData;
 
 enum PBMessageType {
 
+  // ------------------  COMMON ------------------------
+
+  UPLOAD_IMAGE = 700001;                  // 上传图片
+
 
   // ------------------  POKEMONS ----------------------
 

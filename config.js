@@ -35,3 +35,12 @@ export const proto = {
 export const jwt = {
   secret: 'DL3F7OXg0Wy2gha+5O+XEQ=='
 }
+
+export const qiniuConfig = {
+  accessKey: 'P-8PGuC6pCiGB20x9ZG5ypFRwHJ0cLh6wjwBBkv9',
+  secretKey: 'OH1K9OCtdwUhZN7aeGrFEohKh5LJr0vEL6peJsfG',
+  options: {
+    scope: 'pokedata',
+    // returnBody: '{"key":"$(key)","hash":"$(etag)","name":"$(x:name)"}'
+  }
+}
