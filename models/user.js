@@ -39,7 +39,7 @@ const UserSchema = new Schema({
   },
   updateTime: {				// 账户修改时间
     type: Date,
-    default: Date.now
+    default: null
   },
   lastLoginTime: {		// 账号上次登录时间
     type: Date,
@@ -53,7 +53,7 @@ UserSchema.plugin(autoIncrement.plugin, {
   startAt: 1
 })
 
-UserSchema.plugin(uniqueValidator)
+UserSchema.plugin(uniqueValidator, { message: '该用户名已被使用!' })
 
 const User = mongoose.model('User', UserSchema)
 
