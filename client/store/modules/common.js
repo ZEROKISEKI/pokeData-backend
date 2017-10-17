@@ -1,15 +1,20 @@
 import {
-  LOADING
+  LOADING,
+  UPLOADING
 } from '../mutations'
 
 
 export default {
   state: {
-    loadComplete: false
+    loadComplete: true,
+    uploadComplete: true
   },
   mutations: {
     [LOADING](state, data) {
       state.loadComplete = data
+    },
+    [UPLOADING](state, data) {
+      state.uploadComplete = data
     }
   }
 }
