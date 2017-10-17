@@ -19,9 +19,18 @@ const router = new VueRouter({
   routes
 })
 
+function checkAuth(route) {
+  for(const match of route.matched) {
+    if(match.meta && match.meta.requiredAuth) {
+      return true
+    }
+  }
+  return false
+}
+
 router.beforeEach((to, from, next) => {
   const isLogin = auth.loggedIn()
-  if (!isLogin && (to.name === 'auth' || (to.meta && to.meta.requiredAuth))) {
+  if (!isLogin && (to.name === 'auth' || checkAuth(to))) {
     next({
       path: '/login',
       name: 'login',
