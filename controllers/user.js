@@ -124,7 +124,9 @@ class User {
     const req = ctx.pb.req
     const requestBody = PokeData.PBListReq.toObject(PokeData.PBListReq.decode(req.requestBody))
     let users = await model.User
-      .find()
+      .find({
+        userId : { $ne: ctx.state.user.userId }
+      })
       .skip(requestBody.offset)
       .limit(requestBody.limit)
       .exec()
