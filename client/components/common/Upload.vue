@@ -8,7 +8,6 @@
 -->
 <template>
   <div class="poke-upload" :class="multiple ? 'multiple-upload' : ''">
-    <!--  TODO 多图展示图片 -->
     <div v-if="multiple" v-for="(item, index) in files" :key="index" class="image-list">
       <img v-if="item" :src="qiniuImage(item)" width="100" height="100" />
       <div class="upload-cover">
