@@ -4,6 +4,7 @@ import pokemon from './modules/pokemon'
 import item from './modules/item'
 import person from './modules/person'
 import baseConfig from './modules/baseConfig'
+import user from './modules/user'
 
 import actions from './actions'
 
@@ -16,7 +17,8 @@ export default {
     pokemon,
     item,
     person,
-    baseConfig
+    baseConfig,
+    user
   },
   actions
 }
