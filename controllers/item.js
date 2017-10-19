@@ -146,9 +146,10 @@ class Item {
     const requestBody = PokeData.PBItem.toObject(PokeData.PBItem.decode(req.requestBody))
 
     const item = new model.Item(Object.assign({
-      createTime: Date.now(),
       visible: true,
-    }, requestBody))
+    }, requestBody, {
+      createTime: Date.now()
+    }))
 
     await item.validate()
     await item.save()
