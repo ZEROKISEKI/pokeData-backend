@@ -42,7 +42,7 @@ message PBPersonPokemon {
 
   message PBMoney {
     optional string way = 1;                    // 获得金钱方式
-    optional uint32 value = 2;                  // 获得金钱数目
+    optional string value = 2;                  // 获得金钱数目(不一定是金钱, 也可能是BP)
   }
 
   message PBPerson {
