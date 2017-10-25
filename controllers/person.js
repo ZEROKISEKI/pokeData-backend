@@ -133,7 +133,8 @@ class Person {
     ctx.msgType = PokeData.PBMessageType.UPDATE_PERSON
     await next()
     const req = ctx.pb.req
-    const requestBody = PokeData.PBPerson.decode(req.requestBody)
+    const requestBody = PokeData.PBPerson.toObject(PokeData.PBPerson.decode(req.requestBody))
+    // console.log(PokeData.PBPerson.toObject(requestBody).pokemons[0])
     const {id} = ctx.params
     const oldPerson = await model.Person
       .findOne({personId: +id})
@@ -145,7 +146,8 @@ class Person {
     }
 
     // 采用toObject方法会出现空数组丢失问题, 换用Object.assign
-    const data = Object.assign({}, requestBody)
+    const data = requestBody
+    // const data = Object.assign({}, requestBody)
 
     if (data.personId) {
       delete data.personId
