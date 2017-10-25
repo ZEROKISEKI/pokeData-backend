@@ -40,6 +40,30 @@ class Skill {
     ctx.response.body = res
   }
 
+  static async getSkillsMsg(ctx, next) {
+    ctx.msgType = PokeData.PBMessageType.GET_SKILLS_MESSAGE
+    await next()
+    const req = ctx.pb.req
+    const { idStr } = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+    const skills = await model.Skill.find({
+      name: { $regex: new RegExp(idStr), $options: 'i' }
+    }).select({
+      // 需要什么从这里更改
+      'name': 1,
+      'property': 1,
+    }).skip(0).limit(10).exec()
+
+    const data = skills.map(skill => new PokeData.PBSkill(JSON.parse(JSON.stringify(skill))))
+    const messageData = PokeData.PBSkillList.encode(new PokeData.PBSkillList({
+      skills: data,
+    })).finish()
+    const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+      messageData,
+      responseTime: Date.now()
+    })).finish()
+    ctx.response.body = res
+  }
+
   static async getSkillById(ctx, next) {
     ctx.msgType = PokeData.PBMessageType.GET_SKILL_BY_ID
     await next()

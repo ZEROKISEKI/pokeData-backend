@@ -51,6 +51,37 @@ class Item {
 
   }
 
+  // 获取全部道具(部分信息,name和icon)
+  static async getItemsMsg(ctx, next) {
+    ctx.msgType = PokeData.PBMessageType.GET_ITEMS_MESSAGE
+    await next()
+    const req = ctx.pb.req
+    const requestBody = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+    let items = await model.Item
+      .find({ name: { $regex: new RegExp(requestBody.idStr), $options: 'i' } })
+      .select({'name': 1, 'icon': 1})
+      .skip(0)
+      .limit(10)
+      .exec()
+
+    let data = JSON.parse(JSON.stringify(items))
+
+    data = data.map(item => {
+      return new PokeData.PBItem(item)
+    })
+
+    const messageData = PokeData.PBItemList.encode(new PokeData.PBItemList({
+      items: data
+    })).finish()
+
+    const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+      messageData,
+      responseTime: Date.now()
+    })).finish()
+
+    ctx.response.body = res
+  }
+
   // 根据ID获取道具
   static async getItemById(ctx, next) {
     ctx.msgType = PokeData.PBMessageType.GET_ITEM_BY_ID

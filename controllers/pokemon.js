@@ -67,6 +67,36 @@ class Pokemon {
     ctx.response.body = res
   }
 
+  static async getPokemonsMsg(ctx, next) {
+    ctx.msgType = PokeData.PBMessageType.GET_POKEMONS_MESSAGE
+    await next()
+    const req = ctx.pb.req
+    const requestBody = PokeData.PBIdObject.toObject(PokeData.PBIdObject.decode(req.requestBody))
+    const pokemons = await model.Pokemon
+      .find({ name: { $regex: new RegExp(requestBody.idStr), $options: 'i' } })
+      .select({
+        'number': 1,
+        'name': 1,
+        'avatar': 1,
+        'icon': 1,
+        'properties': 1,
+        'features': 1,
+        'specialFeature': 1
+      })
+      .skip(0)
+      .limit(10)
+      .exec()
+    const data = pokemons.map(pokemon => new PokeData.PBPokemon(JSON.parse(JSON.stringify(pokemon))))
+    const messageData = PokeData.PBPokemonList.encode(new PokeData.PBPokemonList({
+      pokemons: data
+    })).finish()
+    const res = PokeData.PBMessageRes.encode(new PokeData.PBMessageRes({
+      messageData,
+      responseTime: Date.now()
+    })).finish()
+    ctx.response.body = res
+  }
+
   static async addPokemon(ctx, next) {
     if (ctx.state.user.role === PokeData.PBUserRole.NORMAL_USER) {
       ctx.status = 401
