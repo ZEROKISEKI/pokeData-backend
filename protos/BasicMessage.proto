@@ -12,6 +12,7 @@ enum PBMessageType {
 
   GET_POKEMONS = 100001;                  // 获取神奇宝贝 PBListReq -> PBPokemonList
   GET_POKEMON_BY_ID = 100002;             // 根据ID获取神奇宝贝 PBIdObject -> PBPokemon
+  GET_POKEMONS_MESSAGE = 100007;          // 获取神奇宝贝部分信息 PBIdObject -> PBPokemonList
   SEARCH_POKEMONS = 100003;               // 搜索神奇宝贝 PBPokemonSearch -> PBPokemonList
   ADD_POKEMON = 100004;                   // 添加神奇宝贝 PBPokemon -> void
   UPDATE_POKEMON = 100005;                // 修改神奇宝贝 PBPokemon -> PBPokemon
@@ -21,6 +22,7 @@ enum PBMessageType {
   // ------------------  ITEMS -------------------------
 
   GET_ITEMS = 200001;                     // 获取道具 PBListReq -> PBItemList
+  GET_ITEMS_MESSAGE = 200007;             // 获取道具部分信息 PBIdObject -> PBItemList
   GET_ITEM_BY_ID = 200002;                // 根据ID获取道具 PBIdObject -> PBItem
   SEARCH_ITEMS = 200003;                  // 搜索道具 PBItemSearch -> PBItemList
   ADD_ITEM = 200004;                      // 添加道具 PBItem -> void
@@ -32,6 +34,7 @@ enum PBMessageType {
 
   GET_SKILLS = 300001;                    // 获取技能 PBListReq -> PBSkillList
   GET_SKILL_BY_ID = 300002;               // 根据ID获取到技能 PBIdObject -> PBSkill
+  GET_SKILLS_MESSAGE = 300007;            // 获取技能部分信息 PBIdObject -> PBSkillList
   SEARCH_SKILLS = 300003;                 // 搜索技能 PBSkillSearch -> PBSkillList
   ADD_SKILL = 300004;                     // 添加技能 PBSkill -> void
   UPDATE_SKILL = 300005;                  // 修改技能信息 PBSkill -> PBSkill
