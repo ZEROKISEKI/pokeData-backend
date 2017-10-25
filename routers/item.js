@@ -11,6 +11,7 @@ router.use(jwt({
 }))
 
 router.get('/all', Item.getItems)
+router.get('/all/message', Item.getItemsMsg)
 router.get('/search', Item.searchItems)
 
 router.post('/add', Item.addItem)

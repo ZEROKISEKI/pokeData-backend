@@ -11,6 +11,7 @@ router.use(jwt({
 }))
 
 router.get('/all', Pokemon.getPokemons)
+router.get('/all/message', Pokemon.getPokemonsMsg)
 router.get('/search', Pokemon.searchPokemons)
 
 router.post('/add', Pokemon.addPokemon)

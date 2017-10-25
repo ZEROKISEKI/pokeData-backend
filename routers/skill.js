@@ -11,6 +11,7 @@ router.use(jwt({
 }))
 
 router.get('/all', Skill.getAllSkills)
+router.get('/all/message', Skill.getSkillsMsg)
 router.get('/search', Skill.searchSkills)
 
 router.post('/add', Skill.addSkill)
