@@ -1,15 +1,11 @@
-<!--
-
-使用方式:
-
-<poke-upload :multiple="true" :images.sync="xxx"></poke-upload>
-<poke-upload :multiple="false" :image.sync="xxx">
-
--->
+<!-- --------------------------使用方式:------------------------------>
+<!--<poke-upload :multiple="true" :images.sync="xxx"></poke-upload>-->
+<!--<poke-upload :multiple="false" :image.sync="xxx">-->
 <template>
   <div class="poke-upload" :class="multiple ? 'multiple-upload' : ''">
-    <div v-if="multiple" v-for="(item, index) in files" :key="index" class="image-list">
-      <img v-if="item" :src="qiniuImage(item)" width="100" height="100" />
+    <div v-if="multiple" v-for="(item, index) in files"
+         :key="index" class="image-list" :style="displaySize">
+      <img v-if="item" :src="qiniuImage(item)" :width="size" :height="size" />
       <div class="upload-cover">
         <Icon type="trash-a" @click.native="removeImage(index)"></Icon>
       </div>
@@ -26,30 +22,32 @@
       :on-error="handleError"
       :on-success="handleSuccess">
       <template v-if="multiple">
-        <div class="upload multiple-upload">
-          <Icon type="plus-round" size="100"></Icon>
+        <div class="upload multiple-upload" :style="displaySize">
+          <Icon type="plus-round" :size="size"></Icon>
         </div>
       </template>
       <template v-else>
         <!-- 单图展示图片 -->
-        <div class="upload">
+        <div class="upload" v-if="defaultUrl || image">
           <img v-if="defaultUrl && !image" :src="qiniuImage(defaultUrl)" />
           <img v-if="image" :src="qiniuImage(image)">
           <div class="upload-cover">
-            <Icon type="plus-round"></Icon>
+            <Icon type="plus-round" :style="displayPlus"></Icon>
           </div>
         </div>
+        <div v-if="!defaultUrl && !image" class="empty-container" :style="displaySize">
+          <Icon type="plus-round" :size="size"></Icon>
+        </div>
       </template>
+      <Spin size="large" fix v-if="!uploadComplete">
+        <Icon type="load-c" size='18' class="demo-spin-icon-load"></Icon>
+        <div>上传图片中</div>
+      </Spin>
     </Upload>
-    <Spin size="large" fix v-if="!uploadComplete">
-      <Icon type="load-c" size='18' class="demo-spin-icon-load"></Icon>
-      <div>上传图片中</div>
-    </Spin>
   </div>
 </template>
 <script>
 import { qiniuHost, qiniuImageOptions } from '@/utils/qiniu'
-import { mapState, mapActions } from 'vuex'
 export default {
   name: 'PokeUpload',
   props: {
@@ -80,6 +78,11 @@ export default {
     maxSize: {
       type: Number,
       default: 2048
+    },
+    // 上传框的大小
+    size: {
+      type: String,
+      default: '100'
     }
   },
   data() {
@@ -91,13 +94,11 @@ export default {
         // 'Accept': 'application/octet-stream'
       },
       files: this.images || [],
-      list: []
+      list: [],
+      uploadComplete: true
     }
   },
   computed: {
-    ...mapState({
-      uploadComplete: ({ common }) => common.uploadComplete
-    }),
     defaultList() {
       if (!this.multiple) {
         return []
@@ -109,13 +110,25 @@ export default {
           }
         })
       }
+    },
+    displaySize() {
+      return {
+        width: `${this.size}px`,
+        height: `${this.size}px`
+      }
+    },
+    displayPlus() {
+      return {
+        fontSize: `${this.size / 2}px`,
+        marginLeft: `-${this.size * 0.75 / 4}px`,
+        marginTop: `-${this.size / 4}px`
+      }
     }
   },
   methods: {
-    ...mapActions(['uploading']),
     handleBeforeUpload() {
       if(this.uploadComplete) {
-        this.uploading(false)
+        this.uploadComplete = false
       }
       return true
     },
@@ -129,7 +142,7 @@ export default {
     handleSuccess(response, file, fileList) {
       if(!this.multiple) {
         this.$emit('update:image', response[0].key)
-        this.uploading(true)
+        this.uploadComplete = true
         this.$Message.success('图片上传成功~')
       } else {
         // TODO 修改获取上传图片的方式
@@ -140,8 +153,8 @@ export default {
             this.files.push(res[0].key)
           }
           this.$emit('update:images', this.files)
+          this.uploadComplete = true
           this.$Message.success('图片上传成功~')
-          this.uploading(true)
         }
       }
     },
@@ -185,6 +198,21 @@ div.poke-upload {
       margin-left: -15px;
       margin-top: -20px;
     }
+  }
+  .empty-container {
+    display: inline-block;
+    width: 100px;
+    position: relative;
+    text-align: center;
+    line-height: 1;
+    border: 3px solid transparent;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+    margin-right: 4px;
+    box-sizing: content-box;
+    cursor: pointer;
   }
   .ivu-upload {
     .upload {
