@@ -90,9 +90,9 @@ const PersonSchema = new Schema({
         type: String,
         default: null
       },
-      value: {							// 金钱数目
-        type: Number,
-        min: 1
+      value: {							// 金钱数目(或者BP)
+        type: String,
+        default: null
       }
     },
     items: [{								// 使用道具
