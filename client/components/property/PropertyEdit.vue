@@ -3,19 +3,21 @@
     <Form ref="property" :rules="rulesValidate" :model="property" :label-width="80">
       <Row type="flex" justify="start" :gutter="16">
         <i-col span="8">
-          <FormItem label="属性名称" prop="name">
-            <i-input v-model="property.name"></i-input>
-          </FormItem>
-          <FormItem label="背景颜色" prop="background">
-            <ColorPicker v-model="property.background"></ColorPicker>
-            <i-input v-model="property.background" class="block-input"></i-input>
-          </FormItem>
-          <FormItem label="边距颜色" prop="border">
-            <ColorPicker v-model="property.border"></ColorPicker>
-            <i-input v-model="property.border" class="block-input"></i-input>
-          </FormItem>
-          <Button type="primary" long @click="updateProperty" v-if="checkRoute">提交</Button>
-          <Button type="primary" long @click="addProperty" v-else>添加</Button>
+          <Card>
+            <FormItem label="属性名称" prop="name">
+              <i-input v-model="property.name"></i-input>
+            </FormItem>
+            <FormItem label="背景颜色" prop="background">
+              <ColorPicker v-model="property.background"></ColorPicker>
+              <i-input v-model="property.background" class="block-input"></i-input>
+            </FormItem>
+            <FormItem label="边距颜色" prop="border">
+              <ColorPicker v-model="property.border"></ColorPicker>
+              <i-input v-model="property.border" class="block-input"></i-input>
+            </FormItem>
+            <Button type="primary" long @click="updateProperty" v-if="checkRoute">提交</Button>
+            <Button type="primary" long @click="addProperty" v-else>添加</Button>
+          </Card>
         </i-col>
       </Row>
     </Form>

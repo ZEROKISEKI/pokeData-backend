@@ -3,19 +3,21 @@
     <Form ref="eggGroup" :rules="rulesValidate" :model="eggGroup" :label-width="80">
       <Row type="flex" justify="start" :gutter="16">
         <i-col span="8">
-          <FormItem label="蛋群名称" prop="name">
-            <i-input v-model="eggGroup.name"></i-input>
-          </FormItem>
-          <FormItem label="背景颜色" prop="background">
-            <ColorPicker v-model="eggGroup.background"></ColorPicker>
-            <i-input v-model="eggGroup.background" class="block-input"></i-input>
-          </FormItem>
-          <FormItem label="边距颜色" prop="border">
-            <ColorPicker v-model="eggGroup.border"></ColorPicker>
-            <i-input v-model="eggGroup.border" class="block-input"></i-input>
-          </FormItem>
-          <Button type="primary" long @click="updateEggGroup" v-if="checkRoute">提交</Button>
-          <Button type="primary" long @click="addEggGroup" v-else>添加</Button>
+          <Card>
+            <FormItem label="蛋群名称" prop="name">
+              <i-input v-model="eggGroup.name"></i-input>
+            </FormItem>
+            <FormItem label="背景颜色" prop="background">
+              <ColorPicker v-model="eggGroup.background"></ColorPicker>
+              <i-input v-model="eggGroup.background" class="block-input"></i-input>
+            </FormItem>
+            <FormItem label="边距颜色" prop="border">
+              <ColorPicker v-model="eggGroup.border"></ColorPicker>
+              <i-input v-model="eggGroup.border" class="block-input"></i-input>
+            </FormItem>
+            <Button type="primary" long @click="updateEggGroup" v-if="checkRoute">提交</Button>
+            <Button type="primary" long @click="addEggGroup" v-else>添加</Button>
+          </Card>
         </i-col>
       </Row>
     </Form>

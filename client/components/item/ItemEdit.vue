@@ -1,186 +1,186 @@
 <template>
   <div class="item-edit">
     <Form :model="data" :label-width="80" :rules="rules" ref="data">
-      <Row type="flex" justify="start" :gutter="16">
+      <Row type="flex" justify="start" :gutter="10">
         <i-col span="12">
-          <FormItem label="道具名称" prop="name">
-            <i-input v-model="data.name" placeholder="请输入道具名称..."></i-input>
-          </FormItem>
-          <FormItem label="道具说明">
-            <i-input v-model="data.description" type="textarea"
-                     :rows="3" placeholder="请输入道具说明..."></i-input>
-          </FormItem>
-          <FormItem label="道具使用">
-            <RadioGroup v-model="data.usage">
-              <Radio v-for="(option, index) in usageOptions"
-                     :label="option.value" :key="index">{{ option.text }}</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="道具场景" class="scene-item">
-            <i-switch v-model="data.scene" size="large">
-              <span slot="open">对战外</span>
-              <span slot="close">对战中</span>
-            </i-switch>
-          </FormItem>
-          <FormItem label="游戏版本" class="appearance-item" prop="appearance">
-            <Row type="flex" justify="start" :gutter="16">
-              <i-col span="10">
-                <i-select v-model="generation" placeholder="请选择世代">
-                  <i-option v-for="(name, index) in generationOptions"
-                            :key="index" :value="name">第{{ name }}世代</i-option>
-                  <i-option :value="0">请选择世代</i-option>
-                </i-select>
-              </i-col>
-              <i-col span="10">
-                <i-select v-model="data.appearance" multiple
-                          placeholder="请选择游戏版本" :disabled="!generation">
-                  <i-option v-for="(version, index) in versionsOptions"
-                            :key="index" :value="version.abstr">{{ version.abstr }}</i-option>
-                </i-select>
-              </i-col>
-            </Row>
-          </FormItem>
-          <FormItem label="购入价格">
-            <InputNumber v-model="data.pay" :min="1"></InputNumber>
-          </FormItem>
-          <FormItem label="售出价格">
-            <InputNumber v-model="data.sale" :min="1"></InputNumber>
-          </FormItem>
-          <FormItem label="投掷次数">
-            <InputNumber v-model="data.throw" :min="0"></InputNumber>
-          </FormItem>
-          <FormItem label="显示可见">
-            <i-switch v-model="data.visible">
-              <span slot="open">是</span>
-              <span slot="close">否</span>
-            </i-switch>
-          </FormItem>
-          <FormItem label="道具图片">
-            <poke-upload :image.sync="data.image" size="80"></poke-upload>
-          </FormItem>
-          <FormItem label="道具图标">
-            <poke-upload :image.sync="data.icon" size="30"></poke-upload>
-          </FormItem>
-          <FormItem label="道具别名" class="aliasName-item" prop="aliasName">
-            <Row v-for="i in Math.ceil(data.aliasName.length / 3)" :key="i"
-                 type="flex" :gutter="16">
-              <i-col v-for="index in aliasNameSection(i)" :key="index" span="7">
-                <i-input type="text" v-model="data.aliasName[index]" icon="close"
-                         @on-click="removeAliasName(index)"></i-input>
-              </i-col>
-            </Row>
-            <Button type="dashed" long v-if="data.aliasName.length === 0"
-                    icon="plus-round" @click="addAliasName">增加别名</Button>
-          </FormItem>
-          <FormItem>
-            <Button type="dashed" long v-if="data.aliasName.length > 0"
-                    icon="plus-round" @click="addAliasName">增加别名</Button>
-          </FormItem>
-          <FormItem label="道具效果" class="effect-item" prop="result">
-            <Row v-for="i in data.result.length" type="flex" :gutter="16" :key="i">
-              <i-col span="24">
-                <div class="effect-container">
-                  <i-input v-model="data.result[i - 1]"
-                           type="textarea" :rows="3" placeholder="请输入效果描述..."></i-input>
-                  <Button type="error" long @click="removeEffect(i - 1)">删除</Button>
-                </div>
-              </i-col>
-            </Row>
-            <Button type="dashed" long v-if="data.result.length === 0"
-                    icon="plus-round" @click="addEffect">增加效果</Button>
-          </FormItem>
-          <FormItem>
-            <Button type="dashed" long v-if="data.result.length > 0"
-                    icon="plus-round" @click="addEffect">增加效果</Button>
-          </FormItem>
+          <Card>
+            <FormItem label="道具名称" prop="name">
+              <i-input v-model="data.name" placeholder="请输入道具名称..."></i-input>
+            </FormItem>
+            <FormItem label="道具说明">
+              <i-input v-model="data.description" type="textarea"
+                       :rows="3" placeholder="请输入道具说明..."></i-input>
+            </FormItem>
+            <FormItem label="道具使用">
+              <RadioGroup v-model="data.usage">
+                <Radio v-for="(option, index) in usageOptions"
+                       :label="option.value" :key="index">{{ option.text }}</Radio>
+              </RadioGroup>
+            </FormItem>
+            <FormItem label="道具场景" class="scene-item">
+              <i-switch v-model="data.scene" size="large">
+                <span slot="open">对战外</span>
+                <span slot="close">对战中</span>
+              </i-switch>
+            </FormItem>
+            <FormItem label="游戏版本" class="appearance-item" prop="appearance">
+              <Row type="flex" justify="start" :gutter="16">
+                <i-col span="10">
+                  <i-select v-model="generation" placeholder="请选择世代">
+                    <i-option v-for="(name, index) in generationOptions"
+                              :key="index" :value="name">第{{ name }}世代</i-option>
+                    <i-option :value="0">请选择世代</i-option>
+                  </i-select>
+                </i-col>
+                <i-col span="10">
+                  <i-select v-model="data.appearance" multiple filterable
+                            placeholder="请选择游戏版本" :disabled="!generation">
+                    <i-option v-for="(version, index) in versionsOptions"
+                              :key="index" :value="version.abstr">{{ version.abstr }}</i-option>
+                  </i-select>
+                </i-col>
+              </Row>
+            </FormItem>
+            <FormItem label="购入价格">
+              <InputNumber v-model="data.pay" :min="1"></InputNumber>
+            </FormItem>
+            <FormItem label="售出价格">
+              <InputNumber v-model="data.sale" :min="1"></InputNumber>
+            </FormItem>
+            <FormItem label="投掷次数">
+              <InputNumber v-model="data.throw" :min="0"></InputNumber>
+            </FormItem>
+            <FormItem label="显示可见">
+              <i-switch v-model="data.visible">
+                <span slot="open">是</span>
+                <span slot="close">否</span>
+              </i-switch>
+            </FormItem>
+            <FormItem label="道具图片">
+              <poke-upload :image.sync="data.image" size="80"></poke-upload>
+            </FormItem>
+            <FormItem label="道具图标">
+              <poke-upload :image.sync="data.icon" size="30"></poke-upload>
+            </FormItem>
+            <FormItem label="道具别名" class="aliasName-item" prop="aliasName">
+              <Row v-for="i in Math.ceil(data.aliasName.length / 3)" :key="i"
+                   type="flex" :gutter="16">
+                <i-col v-for="index in aliasNameSection(i)" :key="index" span="7">
+                  <i-input type="text" v-model="data.aliasName[index]" icon="close"
+                           @on-click="removeAliasName(index)"></i-input>
+                </i-col>
+              </Row>
+              <Button type="dashed" long v-if="data.aliasName.length === 0"
+                      icon="plus-round" @click="addAliasName">增加别名</Button>
+            </FormItem>
+            <FormItem>
+              <Button type="dashed" long v-if="data.aliasName.length > 0"
+                      icon="plus-round" @click="addAliasName">增加别名</Button>
+            </FormItem>
+            <FormItem label="道具效果" class="effect-item" prop="result">
+              <Row v-for="i in data.result.length" type="flex" :gutter="16" :key="i">
+                <i-col span="24">
+                  <Card class="effect-container">
+                    <i-input v-model="data.result[i - 1]"
+                             type="textarea" :rows="3" placeholder="请输入效果描述..."></i-input>
+                    <Button type="error" long @click="removeEffect(i - 1)">删除</Button>
+                  </Card>
+                </i-col>
+              </Row>
+              <Button type="dashed" long v-if="data.result.length === 0"
+                      icon="plus-round" @click="addEffect">增加效果</Button>
+            </FormItem>
+            <FormItem>
+              <Button type="dashed" long v-if="data.result.length > 0"
+                      icon="plus-round" @click="addEffect">增加效果</Button>
+            </FormItem>
+          </Card>
         </i-col>
         <i-col span="12">
-          <FormItem class="obtain-item" prop="obtain.one">
-            <p class="obtain-title">一次性获得道具方式</p>
-            <Row v-for="i in data.obtain.one.length" type="flex" :gutter="16" :key="i">
-              <i-col span="24">
-                <div class="obtain-container">
-                  <Row class="obtain-version" type="flex" :gutter="8"
-                       v-for="(version, index) in data.obtain.one[i - 1].version"
-                       :key="index">
-                    <i-col span="8">
-                      <i-select v-model="version.abstr"
-                                @on-change="handleObtainChange($event, 'one', version)">
-                        <i-option v-for="option in versions"
-                                  :key="option.abstr"
-                                  :value="option.abstr"
-                                  :disabled="checkVersion(option, 'one', i - 1, index)">{{ option.abstr }}</i-option>
-                      </i-select>
-                    </i-col>
-                    <i-col span="12">
-                      <i-input type="text" placeholder="输入详细名称..." v-model="version.name"></i-input>
-                    </i-col>
-                    <i-col span="4">
-                      <Button type="primary" size="small" shape="circle"
-                              @click="removeObtainVersion('one', i - 1, index)">删除版本</Button>
-                    </i-col>
-                  </Row>
-                  <Button type="success" long @click="addObtainVersion('one', i - 1)"
-                          style="margin-bottom: 10px;">增加版本</Button>
-                  <i-input type="textarea"
-                           v-model="data.obtain.one[i - 1].way"
-                           :rows="3"
-                           placeholder="请输入获得方式描述..."></i-input>
-                  <Button type="error" long @click="removeObtain('one', i - 1)">删除条目</Button>
-                </div>
-              </i-col>
-            </Row>
-          </FormItem>
-          <FormItem>
-            <Button type="dashed" long icon="plus-round" @click="addObtain('one')">增加条目</Button>
-          </FormItem>
-          <FormItem class="obtain-item" prop="obtain.repeat">
-            <p class="obtain-title">重复获得道具方式</p>
-            <Row v-for="i in data.obtain.repeat.length" type="flex" :gutter="16" :key="i">
-              <i-col span="24">
-                <div class="obtain-container">
-                  <Row class="obtain-version" type="flex" :gutter="8"
-                       v-for="(version, index) in data.obtain.repeat[i - 1].version"
-                       :key="index">
-                    <i-col span="8">
-                      <i-select v-model="version.abstr"
-                                @on-change="handleObtainChange($event, 'repeat', version)">
-                        <i-option v-for="option in versions"
-                                  :key="option.abstr"
-                                  :value="option.abstr"
-                                  :disabled="checkVersion(option, 'repeat', i - 1, index)">{{ option.abstr }}</i-option>
-                      </i-select>
-                    </i-col>
-                    <i-col span="12">
-                      <i-input type="text" placeholder="输入详细名称..." v-model="version.name"></i-input>
-                    </i-col>
-                    <i-col span="4">
-                      <Button type="primary" size="small" shape="circle"
-                              @click="removeObtainVersion('repeat', i - 1, index)">删除版本</Button>
-                    </i-col>
-                  </Row>
-                  <Button type="success" long @click="addObtainVersion('repeat', i - 1)"
-                          style="margin-bottom: 10px;">增加版本</Button>
-                  <i-input type="textarea"
-                           v-model="data.obtain.repeat[i - 1].way"
-                           :rows="3"
-                           placeholder="请输入获得方式描述..."></i-input>
-                  <Button type="error" long @click="removeObtain('repeat', i - 1)">删除条目</Button>
-                </div>
-              </i-col>
-            </Row>
-          </FormItem>
-          <FormItem>
-            <Button type="dashed" long icon="plus-round" @click="addObtain('repeat')">增加条目</Button>
-          </FormItem>
-        </i-col>
-      </Row>
-      <Row type="flex" :gutter="16" justify="start">
-        <i-col span="12">
-          <FormItem>
+          <Card class="obtain-card">
+            <FormItem class="obtain-item" prop="obtain.one">
+              <p class="obtain-title">一次性获得道具方式</p>
+              <Row v-for="i in data.obtain.one.length" type="flex" :gutter="16" :key="i">
+                <i-col span="24">
+                  <Card class="obtain-container">
+                    <Row class="obtain-version" type="flex" :gutter="8"
+                         v-for="(version, index) in data.obtain.one[i - 1].version"
+                         :key="index">
+                      <i-col span="8">
+                        <i-select v-model="version.abstr" filterable
+                                  @on-change="handleObtainChange($event, 'one', version)">
+                          <i-option v-for="option in versions"
+                                    :key="option.abstr"
+                                    :value="option.abstr"
+                                    :disabled="checkVersion(option, 'one', i - 1, index)">{{ option.abstr }}</i-option>
+                        </i-select>
+                      </i-col>
+                      <i-col span="12">
+                        <i-input type="text" placeholder="输入详细名称..." v-model="version.name"></i-input>
+                      </i-col>
+                      <i-col span="4">
+                        <Button type="primary" size="small" shape="circle"
+                                @click="removeObtainVersion('one', i - 1, index)">删除版本</Button>
+                      </i-col>
+                    </Row>
+                    <Button type="success" long @click="addObtainVersion('one', i - 1)"
+                            style="margin-bottom: 10px;">增加版本</Button>
+                    <i-input type="textarea"
+                             v-model="data.obtain.one[i - 1].way"
+                             :rows="3"
+                             placeholder="请输入获得方式描述..."></i-input>
+                    <Button type="error" long @click="removeObtain('one', i - 1)">删除条目</Button>
+                  </Card>
+                </i-col>
+              </Row>
+            </FormItem>
+            <FormItem>
+              <Button type="dashed" long icon="plus-round" @click="addObtain('one')">增加条目</Button>
+            </FormItem>
+            <FormItem class="obtain-item" prop="obtain.repeat">
+              <p class="obtain-title">重复获得道具方式</p>
+              <Row v-for="i in data.obtain.repeat.length" type="flex" :gutter="16" :key="i">
+                <i-col span="24">
+                  <Card class="obtain-container">
+                    <Row class="obtain-version" type="flex" :gutter="8"
+                         v-for="(version, index) in data.obtain.repeat[i - 1].version"
+                         :key="index">
+                      <i-col span="8">
+                        <i-select v-model="version.abstr" filterable
+                                  @on-change="handleObtainChange($event, 'repeat', version)">
+                          <i-option v-for="option in versions"
+                                    :key="option.abstr"
+                                    :value="option.abstr"
+                                    :disabled="checkVersion(option, 'repeat', i - 1, index)">{{ option.abstr }}</i-option>
+                        </i-select>
+                      </i-col>
+                      <i-col span="12">
+                        <i-input type="text" placeholder="输入详细名称..." v-model="version.name"></i-input>
+                      </i-col>
+                      <i-col span="4">
+                        <Button type="primary" size="small" shape="circle"
+                                @click="removeObtainVersion('repeat', i - 1, index)">删除版本</Button>
+                      </i-col>
+                    </Row>
+                    <Button type="success" long @click="addObtainVersion('repeat', i - 1)"
+                            style="margin-bottom: 10px;">增加版本</Button>
+                    <i-input type="textarea"
+                             v-model="data.obtain.repeat[i - 1].way"
+                             :rows="3"
+                             placeholder="请输入获得方式描述..."></i-input>
+                    <Button type="error" long @click="removeObtain('repeat', i - 1)">删除条目</Button>
+                  </Card>
+                </i-col>
+              </Row>
+            </FormItem>
+            <FormItem>
+              <Button type="dashed" long icon="plus-round" @click="addObtain('repeat')">增加条目</Button>
+            </FormItem>
+          </Card>
+          <Card style="margin-top: 10px;">
             <Button type="primary" long @click="updateItem" v-if="checkRoute">提交</Button>
             <Button type="primary" long @click="addItem" v-else>添加</Button>
-          </FormItem>
+          </Card>
         </i-col>
       </Row>
     </Form>
@@ -378,6 +378,7 @@ export default {
     },
     removeObtain(kind, index) {
       this.data.obtain[kind].splice(index, 1)
+      this.$refs['data'].validateField(`obtain.${kind}`)
     },
     addObtainVersion(kind, index) {
       this.data.obtain[kind][index].version.push({
@@ -439,7 +440,7 @@ export default {
           this.$Message.error('请确认信息是否填写完整或填写有误')
         }
       })
-    }
+    },
   },
   created() {
     const { id } = this.$route.params
@@ -460,7 +461,7 @@ export default {
           self.$Message.error(err.message)
         })
       }
-    })
+    }).catch(err => self.$Message.error(err.message))
   },
   mounted() {
   }
@@ -468,7 +469,7 @@ export default {
 </script>
 <style lang="scss">
 div.item-edit {
-  padding: 50px;
+  padding: 10px;
   .aliasName-item {
     .ivu-row-flex {
       margin-bottom: 10px;
@@ -484,16 +485,22 @@ div.item-edit {
   }
   .effect-item {
     .effect-container {
-      padding: 10px;
-      border: 1px dashed #888;
-      border-radius: 5px;
       margin-bottom: 10px;
       .ivu-btn {
         margin-top: 5px;
       }
     }
   }
+  .obtain-card {
+    .ivu-form-item > .ivu-form-item-content {
+      margin-left: 0!important;
+    }
+  }
   .obtain-item {
+    margin-bottom: 18px;
+    .ivu-form-item-error-tip {
+      padding-top: 0;
+    }
     .obtain-title {
       margin-bottom: 5px;
       text-align: center;
@@ -501,9 +508,6 @@ div.item-edit {
       font-size: 18px;
     }
     .obtain-container {
-      padding: 10px;
-      border: 1px dashed #888;
-      border-radius: 5px;
       margin-bottom: 10px;
       .obtain-version {
         margin-bottom: 5px;

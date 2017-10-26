@@ -3,36 +3,39 @@
     <Form ref="feature" :model="feature" :label-width="80" :rules="rulesValidate">
       <Row type="flex" justify="start" :gutter="16">
         <i-col span="10">
-          <FormItem label="特性名称" prop="name">
-            <i-input v-model="feature.name"></i-input>
-          </FormItem>
-          <FormItem label="显示可见">
-            <i-switch v-model="feature.visible">
-              <span slot="open">是</span>
-              <span slot="close">否</span>
-            </i-switch>
-          </FormItem>
-          <FormItem label="特性说明">
-            <i-input type="textarea" :rows="3" v-model="feature.description"></i-input>
-          </FormItem>
-          <FormItem label="特性效果">
-            <Row v-for="i in feature.effect.length" :key="i" type="flex" :gutter="16">
-              <i-col span="24">
-                <div class="effect-container">
-                  <i-input v-model="feature.effect[i - 1]"
-                           type="textarea" :rows="3" placeholder="请输入效果描述..."></i-input>
-                  <Button type="error" long @click="removeEffect(i - 1)">删除</Button>
-                </div>
-              </i-col>
-            </Row>
-          </FormItem>
-          <FormItem>
-            <Button type="dashed" icon="plus-round" long @click="addEffect">增加效果</Button>
-          </FormItem>
-          <FormItem>
+          <Card>
+            <FormItem label="特性名称" prop="name">
+              <i-input v-model="feature.name"></i-input>
+            </FormItem>
+            <FormItem label="显示可见">
+              <i-switch v-model="feature.visible">
+                <span slot="open">是</span>
+                <span slot="close">否</span>
+              </i-switch>
+            </FormItem>
+            <FormItem label="特性说明">
+              <i-input type="textarea" :rows="3" v-model="feature.description"></i-input>
+            </FormItem>
+            <FormItem label="特性效果">
+              <Row v-for="i in feature.effect.length" :key="i" type="flex" :gutter="16">
+                <i-col span="24">
+                  <Card class="effect-container">
+                    <i-input v-model="feature.effect[i - 1]"
+                             type="textarea" :rows="3" placeholder="请输入效果描述..."></i-input>
+                    <Button type="error" long @click="removeEffect(i - 1)">删除</Button>
+                  </Card>
+                </i-col>
+              </Row>
+              <Button type="dashed" icon="plus-round" v-if="feature.effect.length === 0"
+                      long @click="addEffect">增加效果</Button>
+            </FormItem>
+            <FormItem v-if="feature.effect.length > 0">
+              <Button type="dashed" icon="plus-round"
+                      long @click="addEffect">增加效果</Button>
+            </FormItem>
             <Button type="primary" long @click="updateFeature" v-if="checkRoute">提交</Button>
             <Button type="primary" long @click="addFeature" v-else>添加</Button>
-          </FormItem>
+          </Card>
         </i-col>
       </Row>
     </Form>
@@ -125,10 +128,6 @@ export default {
 div.feature-edit {
   padding: 50px;
   .effect-container {
-    padding: 10px;
-    border: 1px dashed #888;
-    border-radius: 5px;
-    margin-bottom: 10px;
     .ivu-btn {
       margin-top: 5px;
     }

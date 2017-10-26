@@ -3,27 +3,27 @@
     <Form ref="version" :model="version" :label-width="80" :rules="rulesValidate">
       <Row type="flex" justify="start" :gutter="16">
         <i-col span="8">
-          <FormItem label="版本名称" prop="abstr">
-            <i-input v-model="version.abstr"></i-input>
-          </FormItem>
-          <FormItem label="版本全名" prop="name">
-            <i-input v-model="version.name"></i-input>
-          </FormItem>
-          <FormItem label="版本世代" prop="generation">
-            <InputNumber v-model="version.generation" :min="1" :max="100"></InputNumber>
-          </FormItem>
-          <FormItem label="背景颜色" prop="background">
-            <ColorPicker v-model="version.background"></ColorPicker>
-            <i-input v-model="version.background" class="block-input"></i-input>
-          </FormItem>
-          <FormItem label="字体颜色" prop="font">
-            <ColorPicker v-model="version.font"></ColorPicker>
-            <i-input v-model="version.font" class="block-input"></i-input>
-          </FormItem>
-          <FormItem>
+          <Card>
+            <FormItem label="版本名称" prop="abstr">
+              <i-input v-model="version.abstr"></i-input>
+            </FormItem>
+            <FormItem label="版本全名" prop="name">
+              <i-input v-model="version.name"></i-input>
+            </FormItem>
+            <FormItem label="版本世代" prop="generation">
+              <InputNumber v-model="version.generation" :min="1" :max="100"></InputNumber>
+            </FormItem>
+            <FormItem label="背景颜色" prop="background">
+              <ColorPicker v-model="version.background"></ColorPicker>
+              <i-input v-model="version.background" class="block-input"></i-input>
+            </FormItem>
+            <FormItem label="字体颜色" prop="font">
+              <ColorPicker v-model="version.font"></ColorPicker>
+              <i-input v-model="version.font" class="block-input"></i-input>
+            </FormItem>
             <Button type="primary" long @click="updateVersion" v-if="checkRoute">提交</Button>
             <Button type="primary" long @click="addVersion" v-else>添加</Button>
-          </FormItem>
+          </Card>
         </i-col>
       </Row>
     </Form>
@@ -67,7 +67,6 @@ export default {
   },
   methods: {
     ...mapActions(['FetchVersion', 'UpdateVersion', 'AddVersion']),
-    // TODO 考虑加上装饰器
     async updateVersion() {
       const { id } = this.$route.params
       const self = this
@@ -124,7 +123,7 @@ export default {
 </script>
 <style lang="scss">
 div.version-edit {
-  padding: 50px;
+  padding: 20px;
   .block-input {
     width: auto;
   }

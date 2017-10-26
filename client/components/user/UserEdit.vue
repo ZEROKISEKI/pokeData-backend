@@ -3,42 +3,41 @@
     <Form ref="user" :model="user" :rules="rules" :label-width="80">
       <Row type="flex" justify="start" :gutter="16">
         <i-col span="10">
-          <FormItem label="账号名称" prop="username">
-            <i-input v-model="user.username" placeholder="请填写名称..."></i-input>
-          </FormItem>
-          <!-- TODO 待修改账号密码表单 -->
-          <FormItem label="账号密码" prop="password">
-            <Button type="primary" v-if="checkRoute && !openPassword"
-                    @click="openPassword = true">修改密码</Button>
-            <i-input type="password" v-model="password" placeholder="请输入密码..."
-                     icon="close" @on-click="openPassword = false"
-                     v-else-if="checkRoute && openPassword"></i-input>
-            <i-input type="password" v-model="user.password"
-                     placeholder="请输入密码..." v-else></i-input>
-          </FormItem>
-          <FormItem label="账号权限">
-            <RadioGroup v-model="user.role">
-              <Radio v-for="(option, index) in roleOptions"
-                     :label="option.value" :key="index">{{ option.text }}</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="账号状态">
-            <i-switch v-model="user.isLocked" size="large">
-              <span slot="open">已锁</span>
-              <span slot="close">未锁</span>
-            </i-switch>
-          </FormItem>
-          <FormItem label="账号邀请码">
-            <i-input v-model="user.inviteCode" :disabled="checkRoute"></i-input>
-          </FormItem>
-          <FormItem label="账号头像">
-            <poke-upload :defaultUrl="defaultAvatar"
-                         :image.sync="user.avatar" :imageOption="imageOption"></poke-upload>
-          </FormItem>
-          <FormItem>
+          <Card>
+            <FormItem label="账号名称" prop="username">
+              <i-input v-model="user.username" placeholder="请填写名称..."></i-input>
+            </FormItem>
+            <FormItem label="账号密码" prop="password">
+              <Button type="primary" v-if="checkRoute && !openPassword"
+                      @click="openPassword = true">修改密码</Button>
+              <i-input type="password" v-model="password" placeholder="请输入密码..."
+                       icon="close" @on-click="openPassword = false"
+                       v-else-if="checkRoute && openPassword"></i-input>
+              <i-input type="password" v-model="user.password"
+                       placeholder="请输入密码..." v-else></i-input>
+            </FormItem>
+            <FormItem label="账号权限">
+              <RadioGroup v-model="user.role">
+                <Radio v-for="(option, index) in roleOptions"
+                       :label="option.value" :key="index">{{ option.text }}</Radio>
+              </RadioGroup>
+            </FormItem>
+            <FormItem label="账号状态">
+              <i-switch v-model="user.isLocked" size="large">
+                <span slot="open">已锁</span>
+                <span slot="close">未锁</span>
+              </i-switch>
+            </FormItem>
+            <FormItem label="账号邀请码">
+              <i-input v-model="user.inviteCode" :disabled="checkRoute"></i-input>
+            </FormItem>
+            <FormItem label="账号头像">
+              <poke-upload :defaultUrl="defaultAvatar"
+                           :image.sync="user.avatar" :imageOption="imageOption"></poke-upload>
+            </FormItem>
             <Button type="primary" long @click="updateUser" v-if="checkRoute">提交</Button>
             <Button type="primary" long @click="addUser" v-else>添加</Button>
-          </FormItem>
+          </Card>
         </i-col>
       </Row>
     </Form>
@@ -160,6 +159,6 @@ export default {
 </script>
 <style lang="scss">
 div.user-edit {
-  padding: 50px;
+  padding: 20px;
 }
 </style>
