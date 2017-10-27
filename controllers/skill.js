@@ -102,9 +102,9 @@ class Skill {
     const req = ctx.pb.req
     const requestBody = PokeData.PBSkill.toObject(PokeData.PBSkill.decode(req.requestBody))
 
-    const skill = new model.Skill(Object.assign({
+    const skill = new model.Skill(Object.assign({}, requestBody, {
       createTime: Date.now()
-    }, requestBody))
+    }))
 
     await skill.validate()
     await skill.save()
